@@ -112,7 +112,7 @@ const ProfessionalData: React.FC = () => {
     });
 
     useEffect(() => {
-        console.log("hi")
+
         if (error) {
             setTimeout(() => {
                 dispatch(clearError());

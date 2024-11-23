@@ -58,7 +58,7 @@ const LawyerOtpFrom: React.FC = () => {
         }
     };
     const OtpResend = async () => {
-        console.log("hi")
+
         try {
             const response = await dispatch(lawyerResendOtp()).unwrap()
             if (response) {
@@ -84,7 +84,7 @@ const LawyerOtpFrom: React.FC = () => {
 
         } catch (error: any) {
             setOtp(Array(6).fill(""));
-            console.log(error, "dddddddddddddddddddddddddd")
+
             toast(<CustomToast message={error} type="error" />);
         }
 

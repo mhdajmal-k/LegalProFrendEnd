@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
             try {
 
                 const response = await dispatch(loginLawyer(values)).unwrap();
-                console.log(response, "checking.....")
+
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
                     navigate('/lawyer/');

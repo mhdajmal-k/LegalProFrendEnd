@@ -163,8 +163,6 @@ const LawyerBlogListing = () => {
                                     color="success"
                                     onPress={() => {
                                         handileCreate(onClose)
-                                        console.log("Form Values:", formValues);
-
                                     }}
                                 >
                                     Create

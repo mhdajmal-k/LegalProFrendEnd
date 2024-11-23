@@ -80,14 +80,14 @@ const LawyerSignUp: React.FC = () => {
             }
             try {
                 const lawyerSignUpData: LawyerSignUpData = Object.fromEntries(formData) as LawyerSignUpData;
-                console.log(lawyerSignUpData)
+
                 const response = await dispatch(signUpLawyer(lawyerSignUpData)).unwrap();
-                console.log(response, "checking.....")
+
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
                     navigate('/lawyer/verify-otp');
                 }
-                console.log(lawyerSignUpData)
+
             } catch (error: any) {
                 toast(<CustomToast message={error || error.message} type="error" />);
             }

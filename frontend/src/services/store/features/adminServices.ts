@@ -27,7 +27,6 @@ export const getUsers = createAsyncThunk(
       const response = await axiosInstance.get(FETCHUSER, {
         params: { page, limit },
       });
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -48,7 +47,7 @@ export const adminLogin = createAsyncThunk(
   async (data: LoginType, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post<response>(ADMINLOGIN, data);
-      console.log(response, "is the response in service");
+
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -165,8 +164,6 @@ export const undVerifyLawyer = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log("hi");
-      console.log(id);
       const response = await axiosInstance.patch<response>(
         `${UNVERIFYLAWYER}/${id}`,
         { reason }

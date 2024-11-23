@@ -19,7 +19,7 @@ const LawyerList: React.FC = () => {
     const fetchLawyers = async (page: number) => {
         try {
             const response = await dispatch(getLawyers({ page, limit: usersPerPage })).unwrap()
-            console.log(response, "522222222222222222222222222222222")
+            g(response, "522222222222222222222222222222222")
             setLawyers(response.result.lawyers);
             setTotalPages(response.result.totalPages);
             setTotalLawyer(response.result.totalUsers)

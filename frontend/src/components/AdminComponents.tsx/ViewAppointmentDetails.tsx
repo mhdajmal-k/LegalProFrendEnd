@@ -19,7 +19,7 @@ const ViewAppointmentDetails: React.FC = () => {
     const fetchAppointment = async (appointmentId: string | undefined) => {
         try {
             const response = await dispatch(adminFetchAppointmentDataById(appointmentId)).unwrap();
-            console.log(response, 'in the view Appointment');
+
             setAppointments(response.result);
         } catch (error: any) {
             toast(<CustomToast message={error.message || 'Error fetching appointments'} type="error" />);

@@ -22,7 +22,7 @@ const ViewOneAppointmentDetails: React.FC<ViewOneAppointmentProps> = ({ Appointm
     const dispatch: AppDispatch = useDispatch();
     const [showVideoCall, setShowVideoCall] = useState(false);
     const handleVideoCallClick = () => {
-        console.log(socket)
+
         socket?.emit("joinRoom", AppointmentId);
         setShowVideoCall(true)
     }
