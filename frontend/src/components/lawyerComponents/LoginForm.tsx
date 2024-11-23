@@ -23,8 +23,8 @@ const LoginForm: React.FC = () => {
     const [showPassword, setShowPassword] = useState<Boolean>(false);
     const formik = useFormik({
         initialValues: {
-            email: 'ajmalchundappuram@gmail.com',
-            password: '@Ajmal111',
+            email: '',
+            password: '',
         },
         validationSchema: lawyerLoginValidationSchema,
         validateOnChange: true,

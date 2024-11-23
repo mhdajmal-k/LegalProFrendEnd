@@ -30,7 +30,7 @@ const ForgotPasswordFrom: React.FC = () => {
             try {
 
                 const response = await dispatch(resetForgotPassword({ password: values.password, token })).unwrap();
-                g(response, "checking.....")
+
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
                     navigate('/login');
