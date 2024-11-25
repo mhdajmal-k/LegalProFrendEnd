@@ -88,7 +88,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             });
 
             socket.on("candidate", async ({ candidate }) => {
-
+                console.log("in here candidate")
                 try {
                     if (peerConnection.current?.remoteDescription) {
                         await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
@@ -149,12 +149,39 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                 myVideo.current.srcObject = localStream;
             }
 
+            // peerConnection.current = new RTCPeerConnection({
+            //     iceServers: [
+            //         { urls: "stun:stun.l.google.com:19302" },
+            //         { urls: "stun:stun1.l.google.com:19302" }
+            //     ]
+            // });
+
+            ////////////////////////new     
+
+
+            // Use the enhanced configuration
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    { urls: "stun:stun.l.google.com:19302" },
-                    { urls: "stun:stun1.l.google.com:19302" }
-                ]
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // Add TURN server configuration
+                    {
+                        urls: 'turn:your-turn-server.com:3478',
+                        username: 'your-username',
+                        credential: 'your-password'
+                    }
+                ],
+                iceTransportPolicy: 'all'
             });
+
+            // Add connection state logging
+            peerConnection.current.oniceconnectionstatechange = () => {
+                console.log('ICE Connection State:', peerConnection.current?.iceConnectionState);
+            };
+
+            peerConnection.current.onconnectionstatechange = () => {
+                console.log('Connection State:', peerConnection.current?.connectionState);
+            };
 
             console.log(peerConnection.current, "is the peerConnection of the peer")
 
@@ -164,6 +191,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             peerConnection.current.onicecandidate = (event) => {
                 if (event.candidate) {
+                    console.log("Local ICE Candidate:", event.candidate);
                     socket?.emit("candidate", {
                         roomId: appointmentId,
                         candidate: event.candidate,
@@ -171,6 +199,32 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                     });
                 }
             };
+
+            peerConnection.current.onnegotiationneeded = async () => {
+                try {
+                    if (peerConnection.current?.signalingState === "stable") {
+                        const offer = await peerConnection.current.createOffer();
+                        await peerConnection.current.setLocalDescription(offer);
+                        socket?.emit("offer", {
+                            roomId: appointmentId,
+                            offer,
+                            userId: currentSocketId
+                        });
+                    }
+                } catch (err) {
+                    console.error("Error during negotiation:", err);
+                }
+            };
+
+            // peerConnection.current.onicecandidate = (event) => {
+            //     if (event.candidate) {
+            //         socket?.emit("candidate", {
+            //             roomId: appointmentId,
+            //             candidate: event.candidate,
+            //             userId: currentSocketId
+            //         });
+            //     }
+            // };
 
             peerConnection.current.ontrack = (event) => {
                 setRemoteStream(event.streams[0]);

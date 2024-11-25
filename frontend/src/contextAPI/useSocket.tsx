@@ -18,7 +18,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const [currentSocketId, setSocketId] = useState<string | null>(null);
 
     useEffect(() => {
-        const newSocket = socket(API_URL);
+        const newSocket = socket(API_URL, {
+            transports: ['websocket'],
+            upgrade: false,
+            reconnection: true,
+            reconnectionAttempts: 5,
+            reconnectionDelay: 1000
+        });
         setsocketIo(newSocket);
 
 
