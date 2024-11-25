@@ -20,17 +20,24 @@ const HeroSection: React.FC = React.memo(() => {
         e.preventDefault()
         try {
             if (searchInput.current) {
+                alert(searchInput.current.value)
                 const prompt = searchInput.current.value
                 if (prompt.trim() == "") {
-                    toast(<CustomToast message={"search Query is requried"} type="error" />);
+                    toast(<CustomToast message={"search Query is required"} type="error" />);
                     return
                 }
                 setSearching(true)
                 const response = await dispatch(AISearch(prompt)).unwrap()
-                searchInput.current.value = ""
-                setResult(response.result);
+                console.log(response, "is the ai response")
+                if (response.status) {
+                    alert("hi")
+                    searchInput.current.value = ""
+                    setResult(response.result);
+                }
+
             }
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             toast(<CustomToast message={error || error.message} type="error" />);
             setSearching(false)
@@ -106,7 +113,7 @@ const HeroSection: React.FC = React.memo(() => {
                                         </div>
                                     ) : (
                                         <>
-                                            {result.trim() !== "" ? (
+                                            {result?.trim() !== "" ? (
                                                 <div>
                                                     <p>{result}</p>
                                                     <button

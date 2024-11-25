@@ -24,8 +24,8 @@ const LoginForm: React.FC = () => {
     const { loading, error } = useSelector((state: RootState) => state.user)
     const formik = useFormik({
         initialValues: {
-            email: 'ajmalchundappuram@gmail.com',
-            password: '@Ajmal111',
+            email: '',
+            password: '',
         },
         validationSchema: loginValidator,
         validateOnChange: true,

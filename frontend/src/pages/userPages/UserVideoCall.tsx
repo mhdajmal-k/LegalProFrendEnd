@@ -50,14 +50,11 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
         if (!socket) return;
 
         const initializeSocketEvents = () => {
-
-
             socket?.on("userJoined", (socketId) => {
                 console.log("another user joined")
                 toast(<CustomToast message={"New contact online! You Can Call."} type="success" />, {
                     duration: 3000
                 });
-
                 setSocketId(socketId)
             })
 
@@ -101,11 +98,13 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                 }
             });
 
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             socket.on("message", (message: any) => {
                 setMessages(prev => [...prev, { ...message, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
                 setTyping(false)
                 setIsTyping(false)
             });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             socket.on("isTyping", (typingAction: any) => {
                 setTyping(true)
                 setWhoTyping(typingAction.sender)
@@ -136,7 +135,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             socket.off("isTyping");
             setIsCallStarted(false);
         };
-    }, [socket,]);
+    }, [socket]);
 
     const initializePeerConnection = async () => {
         try {
@@ -156,6 +155,8 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                     { urls: "stun:stun1.l.google.com:19302" }
                 ]
             });
+
+            console.log(peerConnection.current, "is the peerConnection of the peer")
 
             localStream.getTracks().forEach(track => {
                 peerConnection.current?.addTrack(track, localStream);
@@ -211,7 +212,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             await peerConnection.current?.setLocalDescription(answer);
 
-            socket?.emit("answer", { roomId: appointmentId, answer, userId: socketId }); //userId: userId 
+            socket?.emit("answer", { roomId: appointmentId, answer, userId: socketId });
             setIncomingCall(false);
             setIsCallStarted(true);
             if (audioRef.current) {
