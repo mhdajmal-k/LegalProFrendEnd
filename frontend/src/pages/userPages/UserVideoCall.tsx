@@ -163,16 +163,16 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             // Use the enhanced configuration
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    // STUN servers (always keep these)
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // // STUN servers (always keep these)
+                    // { urls: 'stun:stun.l.google.com:19302' },
+                    // { urls: 'stun:stun1.l.google.com:19302' },
 
                     // Free TURN server for testing
-                    {
-                        urls: 'turn:16.16.187.11:3478',
-                        username: 'ajmalchundappuram@gmail.com',
-                        credential: '@Ajmal111'
-                    }
+                    // {
+                    //     urls: 'turn:16.16.187.11:3478',
+                    //     username: 'ajmalchundappuram@gmail.com',
+                    //     credential: '@Ajmal111'
+                    // }
                 ],
                 iceTransportPolicy: 'all'
             });
