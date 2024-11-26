@@ -89,6 +89,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             socket.on("candidate", async ({ candidate }) => {
                 console.log("in here candidate")
+                console.log(candidate, "is the candidate")
                 try {
                     if (peerConnection.current?.remoteDescription) {
                         await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
@@ -250,6 +251,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             // };
 
             peerConnection.current.ontrack = (event) => {
+                console.log('in remote set Stream')
                 setRemoteStream(event.streams[0]);
                 if (userVideo.current) {
                     userVideo.current.srcObject = event.streams[0];
