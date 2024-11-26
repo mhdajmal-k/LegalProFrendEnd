@@ -169,9 +169,9 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
                     // Free TURN server for testing
                     {
-                        urls: 'turn:openrelay.metered.ca:80',
-                        username: 'openrelayproject',
-                        credential: 'openrelayproject'
+                        urls: 'turn:16.16.187.11:3478',
+                        username: 'ajmalchundappuram@gmail.com',
+                        credential: '@Ajmal111'
                     }
                 ],
                 iceTransportPolicy: 'all'
