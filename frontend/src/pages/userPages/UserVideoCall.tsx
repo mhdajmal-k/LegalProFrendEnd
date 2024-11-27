@@ -89,7 +89,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             socket.on("candidate", async ({ candidate }) => {
                 console.log("in here candidate")
-                console.log(candidate, "is the candidate")
                 try {
                     if (peerConnection.current?.remoteDescription) {
                         await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
@@ -163,34 +162,26 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             // Use the enhanced configuration
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
-                    // // STUN servers (always keep these)
-                    // { urls: 'stun:stun.l.google.com:19302' },
-                    // { urls: 'stun:stun1.l.google.com:19302' },
-
-                    // Free TURN server for testing
-                    // {
-                    //     urls: 'turn:16.16.187.11:3478',
-                    //     username: 'ajmalchundappuram@gmail.com',
-                    //     credential: '@Ajmal111'
-                    // }
+                    { urls: 'stun:stun.l.google.com:19302' },
+                    { urls: 'stun:stun1.l.google.com:19302' },
+                    // Add TURN server configuration
+                    {
+                        urls: 'turn:your-turn-server.com:3478',
+                        username: 'your-username',
+                        credential: 'your-password'
+                    }
                 ],
                 iceTransportPolicy: 'all'
             });
 
             // Add connection state logging
             peerConnection.current.oniceconnectionstatechange = () => {
-                const iceState = peerConnection.current?.iceConnectionState;
-                console.log('ICE Connection State:', iceState);
-
-                if (iceState === 'connected') {
-                    console.log('WebRTC connection established successfully');
-                }
-
-                if (iceState === 'failed') {
-                    console.log('Connection failed, likely using TURN server');
-                }
+                console.log('ICE Connection State:', peerConnection.current?.iceConnectionState);
             };
 
+            peerConnection.current.onconnectionstatechange = () => {
+                console.log('Connection State:', peerConnection.current?.connectionState);
+            };
 
             console.log(peerConnection.current, "is the peerConnection of the peer")
 
@@ -206,23 +197,8 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                         candidate: event.candidate,
                         userId: currentSocketId
                     });
-                } else {
-                    console.log("All local candidates have been gathered");
                 }
             };
-
-            peerConnection.current.oniceconnectionstatechange = () => {
-                const iceState = peerConnection.current?.iceConnectionState;
-                console.log('ICE Connection State:', peerConnection.current?.iceConnectionState);
-                console.log('ICE Gathering State:', peerConnection.current?.iceGatheringState);
-                console.log('ICE Connection State:', iceState);
-
-                if (iceState === 'failed') {
-                    // Attempt to restart ICE
-                    peerConnection.current?.restartIce();
-                }
-            };
-
 
             peerConnection.current.onnegotiationneeded = async () => {
                 try {
@@ -251,7 +227,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             // };
 
             peerConnection.current.ontrack = (event) => {
-                console.log('in remote set Stream')
                 setRemoteStream(event.streams[0]);
                 if (userVideo.current) {
                     userVideo.current.srcObject = event.streams[0];
@@ -282,7 +257,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             console.error("Error starting call:", error);
         }
     };
-
     const answerCall = async () => {
         try {
             if (!peerConnection.current) {

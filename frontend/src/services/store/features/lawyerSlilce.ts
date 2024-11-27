@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { lawyerVerifyOtp, loginLawyer, signUpLawyer } from "./lawyerServices";
+import {
+  LawyerFetchAppointmentDataById,
+  lawyerVerifyOtp,
+  loginLawyer,
+  signUpLawyer,
+} from "./lawyerServices";
 import { LawyerInfo } from "../../../utils/type/lawyerType";
 
 interface lawyerState {
@@ -68,6 +73,16 @@ const lawyerSlice = createSlice({
       .addCase(loginLawyer.rejected, (state, action: PayloadAction<any>) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(LawyerFetchAppointmentDataById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(LawyerFetchAppointmentDataById.fulfilled, (state) => {
+        // state.lawyerInfo = actions.payload.result;
+        state.loading = false;
+      })
+      .addCase(LawyerFetchAppointmentDataById.rejected, (state) => {
+        state.loading = false;
       });
   },
 });

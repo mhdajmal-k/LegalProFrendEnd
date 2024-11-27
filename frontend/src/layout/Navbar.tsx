@@ -4,8 +4,6 @@ import { Button } from "@nextui-org/button";
 import { Link } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../services/store/store';
-import { IoIosNotifications } from "react-icons/io";
-import { FaHeart } from "react-icons/fa";
 import { Tooltip, Avatar } from "@nextui-org/react";
 import { userLogout } from '../services/store/features/userSlice';
 import { logOut } from '../services/store/features/userServices';
@@ -34,7 +32,6 @@ const Navbar: React.FC = React.memo(() => {
   return (
     <nav className="bg-primary p-2">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo and Title */}
         <div className="flex items-center mx-2.5">
           <img src={Logo} className="w-10" alt="logo" />
           <Link to="/" className="ml-3 font-bold text-white">
@@ -45,15 +42,13 @@ const Navbar: React.FC = React.memo(() => {
         <div className="hidden md:flex space-x-6 text-white">
           <Link to="/">HOME</Link>
           <Link to="/findLawyers" className="hover:text-black">FIND LAWYERS</Link>
-          <Link to="/services" className="hover:text-black">ABOUT</Link>
+          <Link to="/AboutUs" className="hover:text-black">ABOUT</Link>
           <Link to="/blogs" className="hover:text-black">BLOG</Link>
         </div>
 
         <div>
-          {userInfo?.userName ? (
+          {userInfo ? (
             <div className="flex items-center space-x-4">
-              <IoIosNotifications className="text-xl" />
-              <FaHeart className="text-xl" />
               <Tooltip
                 content={
                   <div className="py-2">
@@ -67,11 +62,11 @@ const Navbar: React.FC = React.memo(() => {
                 }
               >
                 <Avatar
-                  isBordered
-                  radius="full"
-                  src={userInfo?.profilePicture ?? 'https://i.pravatar.cc/150?u=default'}
-                  alt={userInfo.userName}
-                  className="cursor-pointer object-contain "
+                // isBordered
+                // radius="full"
+                // src={userInfo?.profilePicture ?? 'https://i.pravatar.cc/150?u=default'}
+                // alt={userInfo.userName}
+                // className="cursor-pointer object-contain "
                 />
               </Tooltip>
               <span className="text-sm font-medium">{userInfo.userName}</span>
@@ -107,8 +102,8 @@ const Navbar: React.FC = React.memo(() => {
         <div className="md:hidden mt-4 space-y-2 text-white">
           <Link to="/" className="block">HOME</Link>
           <Link to="/findLawyers" className="block">FIND LAWYERS</Link>
-          <Link to="/services" className="block">ABOUT</Link>
-          <Link to="/contact" className="block">BLOG</Link>
+          <Link to="/AboutUs" className="block">ABOUT</Link>
+          <Link to="/blogs" className="block">BLOG</Link>
 
           {!userInfo ? (
             <div>
@@ -124,10 +119,13 @@ const Navbar: React.FC = React.memo(() => {
               </Link>
             </div>
           ) : (
-            <div>
+            <div className='grid justify-start gap-3'>
               {/* Add any additional content for logged-in users here */}
               <Button size="sm" className="bg-secondary text-black font-bold hover:bg-slate-200">
                 Welcome, {userInfo?.userName}
+              </Button>
+              <Button size="sm" className=" justify-start bg-red-600 text-black font-bold hover:bg-slate-200" variant="light" onClick={handleLogout}>
+                LogOut
               </Button>
             </div>
           )}

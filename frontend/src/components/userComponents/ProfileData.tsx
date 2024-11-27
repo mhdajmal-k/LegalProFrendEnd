@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../services/store/store';
 import { Button, Input } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import { FaCirclePlus } from "react-icons/fa6";
-import { updateUserProfileData } from '../../services/store/features/userServices';
+import { getUserProfileData, updateUserProfileData } from '../../services/store/features/userServices';
 import CustomToast from './CustomToast';
 import { toast } from 'sonner';
 import { userDataUpdateValidator } from '../../utils/validator/loginValidaotr';
@@ -13,15 +13,36 @@ interface FormValues {
     userName: string;
     email: string;
     phoneNumber?: string;
+    profile_picture?: string
 }
 
 const ProfileData: React.FC = () => {
     const { userInfo, error, loading } = useSelector((state: RootState) => state.user);
     const [editMode, setEditMode] = useState(false);
     const [previewImage, setPreviewImage] = useState<string>("");
+    const [user, setUser] = useState<any>("");
     const [image, setImage] = useState<File | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
     const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+
+        const fetchUserData = async () => {
+
+            try {
+                const response = await dispatch(getUserProfileData()).unwrap();
+                setUser(response.result);
+                console.log(response, "is the response");
+            } catch (error: any) {
+                toast(<CustomToast message={error || error.message} type="error" />);
+                console.error('Error fetching lawyer data:', error);
+            }
+
+        };
+        fetchUserData();
+    }, [dispatch,]);
+
+
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -38,9 +59,9 @@ const ProfileData: React.FC = () => {
 
     const formik = useFormik({
         initialValues: {
-            userName: userInfo?.userName || "",
-            email: userInfo?.email || '',
-            phoneNumber: userInfo?.phoneNumber || '',
+            userName: user?.userName,
+            email: '',
+            phoneNumber: '',
         },
         validationSchema: userDataUpdateValidator,
         validateOnChange: editMode,
@@ -71,7 +92,7 @@ const ProfileData: React.FC = () => {
             <div className="mb-4 items-center flex justify-center flex-col">
                 <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden relative cursor-pointer">
                     <img
-                        src={previewImage || userInfo?.profilePicture || 'https://via.placeholder.com/150'}
+                        src={previewImage || user?.profilePicture || 'https://via.placeholder.com/150'}
                         alt="User Avatar"
                         className="w-full h-full object-contain rounded-full"
                         onClick={() => fileRef.current?.click()}
@@ -92,7 +113,7 @@ const ProfileData: React.FC = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         isInvalid={editMode && !!formik.errors.userName && !!formik.touched.userName}
-                        value={formik.values.userName}
+                        value={formik.values.userName ?? user?.userName}
                         variant={editMode ? "bordered" : "flat"}
                         readOnly={!editMode}
                     />
@@ -104,7 +125,7 @@ const ProfileData: React.FC = () => {
                         label="Email"
                         name='email'
                         size="sm"
-                        value={formik.values.email}
+                        value={user?.email || formik.values.email}
                         readOnly
                     />
                     <Input
@@ -115,7 +136,7 @@ const ProfileData: React.FC = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         isInvalid={!!formik.errors.phoneNumber && !!formik.touched.phoneNumber}
-                        value={formik.values.phoneNumber}
+                        value={user?.phoneNumber ?? formik.values.phoneNumber}
                         variant={editMode ? "bordered" : "flat"}
                         readOnly={!editMode}
                     />

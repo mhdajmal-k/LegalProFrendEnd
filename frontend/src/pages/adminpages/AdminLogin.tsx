@@ -18,7 +18,7 @@ const AdminLoginForm: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
     const { loading, error } = useSelector((state: RootState) => state.lawyer);
-    const [showPassword, setShowPassword] = useState<Boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -30,6 +30,8 @@ const AdminLoginForm: React.FC = () => {
         onSubmit: async (values) => {
             try {
                 const response = await dispatch(adminLogin(values)).unwrap()
+                // console.log(response)
+                // alert("hi")
                 if (response.status) {
                     navigate('/admin/dashboard');
                 }

@@ -49,9 +49,9 @@ const LawyerList: React.FC = () => {
                 </div>
                 <LawyerTableList columns={lawyerColumns} data={lawyers} onRefresh={refreshLawyers} />
             </div>
-            <div>
+            {/* <div>
                 handleLogout
-            </div>
+            </div> */}
             {lawyers.length > 0 && (
                 <div className='text-center mx-auto flex justify-center mt-7'>
                     <CommonPagination

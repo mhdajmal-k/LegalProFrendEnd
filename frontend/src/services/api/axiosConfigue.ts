@@ -38,14 +38,14 @@ axiosInstance.interceptors.response.use(
           }
         }
       } catch (error: any) {
-        if (error?.response.data.result.user == "user") {
-        }
+        // if (error?.response.data.result.user == "user") {
+        // }
 
-        return Promise.reject(error || error?.response.data.message);
+        return Promise.reject(error);
       }
     }
 
-    return Promise.reject(error || error?.response.data.message);
+    return Promise.reject(error);
   }
 );
 

@@ -4,6 +4,7 @@ import LoadingFallback from '../../components/LoadingFallback';
 import Blogs from '../../pages/userPages/BlogList';
 import ViewBlogUserSide from '../../pages/userPages/UserBlogDetails';
 import Wallet from '../../components/Wallet';
+import AboutUs from '../../components/AboutUs';
 
 // Lazy loaded components
 const SignUp = lazy(() => import('../../pages/userPages/SignUp'));
@@ -38,6 +39,8 @@ const UserRouters: React.FC = () => {
 
         <Route path='/' element={<Home />} />
         <Route path='/findLawyers' element={<LawyersList />} />
+        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
 
         <Route element={<ProtectRoute />}>
           <Route path="/viewLawyer/:id" element={<LawyerProfile />} />
@@ -45,7 +48,6 @@ const UserRouters: React.FC = () => {
           <Route path="/payment/:id" element={<AppointmentReviewAndPayment />} />
           <Route path="/paymentSuccess/:AppointmentId" element={<AppointmentSuccess />} />
           <Route path="/viewAppointment/:AppointmentId" element={<ViewAppointment />} />
-          <Route path="/blogs" element={<Blogs />} />
           <Route path='/blog/:blogId' element={<ViewBlogUserSide />} />
           <Route path='/profile' element={<UserProfileLayout />}>
             <Route index element={<ProfileData />} />

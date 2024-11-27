@@ -1,9 +1,10 @@
 import { Button } from '@nextui-org/react';
 import React from 'react';
 import { FaBuilding, FaLaptopCode, FaGavel, FaHome, FaBalanceScale, FaUserShield } from 'react-icons/fa';  // Import relevant icons
-
+import { useNavigate } from 'react-router-dom';
 
 const LegalServices: React.FC = () => {
+    const navigate = useNavigate()
     return (
         <div className='min-h-screen p-6 bg-primary'>
 
@@ -28,6 +29,7 @@ const LegalServices: React.FC = () => {
                         color='primary'
                         type='submit'
                         className='w-full mt-3'
+                        onClick={() => navigate("/findLawyers")}
                     >
                         Book Now
                     </Button>
@@ -47,6 +49,7 @@ const LegalServices: React.FC = () => {
                         color='primary'
                         type='submit'
                         className='w-full mt-3'
+                        onClick={() => navigate("/findLawyers")}
                     >
                         Book Now
                     </Button>
@@ -65,6 +68,7 @@ const LegalServices: React.FC = () => {
                         color='primary'
                         type='submit'
                         className='w-full mt-3'
+                        onClick={() => navigate("/findLawyers")}
                     >
                         Book Now
                     </Button>
@@ -84,6 +88,7 @@ const LegalServices: React.FC = () => {
                         color='primary'
                         type='submit'
                         className='w-full mt-3'
+                        onClick={() => navigate("/findLawyers")}
                     >
                         Book Now
                     </Button>
@@ -103,6 +108,7 @@ const LegalServices: React.FC = () => {
                         color='primary'
                         type='submit'
                         className='w-full mt-3'
+                        onClick={() => navigate("/findLawyers")}
                     >
                         Book Now
                     </Button>
@@ -128,6 +134,7 @@ const LegalServices: React.FC = () => {
                 </div>
 
             </div>
+
         </div>
     );
 };

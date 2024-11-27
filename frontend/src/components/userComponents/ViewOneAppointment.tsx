@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../services/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../services/store/store';
 import { Appointment } from '../../utils/type/Appointment';
 import CustomToast from '../../components/userComponents/CustomToast';
 import { toast } from 'sonner';
 import { cancelAppointmentDataById, cancelingAppointmentWithOurFeeDById, fetchAppointmentDataById, fetchRefundStatus } from '../../services/store/features/userServices';
-import { Button, Card, CardBody, CardHeader } from '@nextui-org/react';
+import { Button, Card, CardBody, CardHeader, Skeleton } from '@nextui-org/react';
 import { Clock, IndianRupee, X, Video, CheckCircle, AlertCircle } from 'lucide-react';
 import { SlCalender } from "react-icons/sl";
 // import { useNavigate } from 'react-router-dom';
@@ -22,7 +22,7 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
     const [appointment, setAppointments] = useState<Appointment>();
     const [refundStatus, setRefundStatus] = useState<any>();
     const dispatch: AppDispatch = useDispatch();
-    // const navigate = useNavigate()
+    const { loading, } = useSelector((state: RootState) => state.user)
     const [showVideoCall, setShowVideoCall] = useState(false);
     const { socket } = useSocket();
 
@@ -46,6 +46,7 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
 
     const handileCancel = (appointmentId: string | undefined) => {
         const today = new Date(appointment?.appointmentDate!);
+
         const todayString = today.toISOString().split("T")[0];
 
 
@@ -72,7 +73,7 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
                                             type="success"
                                         />
                                     );
-                                    fetchAppointment(appointmentId); // Fetch updated appointments
+                                    fetchAppointment(appointmentId);
                                 } else {
                                     toast(
                                         <CustomToast
@@ -93,7 +94,7 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
                         </button>
                     </div>
                 </div>,
-                { duration: 3000 }
+                { duration: 1500 }
             );
             return;
         }
@@ -216,53 +217,92 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
 
                                         <div className="flex items-center text-lg">
                                             <SlCalender className="mr-2 h-5 w-5 text-blue-500" />
-                                            <strong> Date: </strong>
-                                            {appointment?.appointmentDate
-                                                ? new Date(appointment?.appointmentDate).toLocaleDateString('en-US', {
-                                                    weekday: 'long',
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric',
-                                                })
-                                                : 'Date not available'}
+                                            <strong className="mr-2">Date:</strong>
+                                            {loading ? (
+                                                <Skeleton className="rounded-lg h-6 w-40 mt-2" />
+                                            ) : (
+                                                appointment?.appointmentDate ? (
+                                                    new Date(appointment?.appointmentDate).toLocaleDateString('en-US', {
+                                                        weekday: 'long',
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric',
+                                                    })
+                                                ) : (
+                                                    'Date not available'
+                                                )
+                                            )}
                                         </div>
+
                                         <div className="flex items-center text-lg">
                                             <Clock className="mr-2 h-5 w-5 text-blue-500" />
-                                            <span><strong>Time:</strong> <mark>{appointment?.appointmentTime || 'N/A'}
-                                            </mark></span>
+                                            <span><strong>Time:</strong>{loading ? (
+                                                <Skeleton className="rounded-lg h-6 w-40 mt-2" />
+                                            ) : <mark>{appointment?.appointmentTime || 'N/A'} </mark>}
+                                            </span>
                                         </div>
                                         <div className="flex items-center text-lg">
                                             <IndianRupee className="mr-2 h-5 w-5 text-green-500" />
-                                            <span><strong>Consultation Fee:</strong> ₹{appointment?.subTotal || 'N/A'}
-                                                <br />
-                                                <span className='font-light text-xs text-center ml-5'> (Rs {appointment?.convenienceFee} convenienceFee ) </span></span>
+                                            <div>
+                                                <strong>Consultation Fee:</strong>{" "}
+                                                {loading ? (
+                                                    <Skeleton className="rounded-lg h-6 w-40 mt-2 inline-block" />
+                                                ) : (
+                                                    <>
+                                                        ₹{appointment?.subTotal || "N/A"}
+                                                        <br />
+                                                        {appointment?.convenienceFee && (
+                                                            <span className="font-light text-xs text-gray-500">
+                                                                (₹{appointment?.convenienceFee} convenience fee)
+                                                            </span>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
 
-                                        <div className="flex items-start w-3/5 ">
+
+                                        <div className="flex items-start w-3/5">
                                             <div className="w-2/3">
                                                 <div className="mb-2">
-                                                    {/* <User className="inline-block mr-2 h-5 w-5 text-gray-600" /> */}
                                                     <div>
-
-                                                        <img
-                                                            src={appointment?.lawyerId?.profile_picture || '/placeholder.png'}
-                                                            alt="Lawyer profile"
-                                                            className=" w-/4"
-                                                        />
+                                                        {loading ? (
+                                                            <Skeleton className="rounded-full h-20 w-20 mb-2" />
+                                                        ) : (
+                                                            <img
+                                                                src={appointment?.lawyerId?.profile_picture || "/placeholder.png"}
+                                                                alt="Lawyer profile"
+                                                                className="w-20 h-20 rounded-full object-cover"
+                                                            />
+                                                        )}
                                                     </div>
-
-
-                                                    <span className="text-lg font-semibold">Advocate: {appointment?.lawyerId?.userName || 'N/A'}</span>
+                                                    <span className="text-lg font-semibold">
+                                                        {loading ? (
+                                                            <Skeleton className="rounded-lg h-6 w-40 mb-2 inline-block" />
+                                                        ) : (
+                                                            `Advocate: ${appointment?.lawyerId?.userName || "N/A"}`
+                                                        )}
+                                                    </span>
                                                 </div>
-                                                <div className='mb-4 ml-6'>
-                                                    <h5 className="text-gray-500">{appointment?.lawyerId?.designation || 'Designation not available'}</h5>
-                                                    <p className="text-gray-500">{appointment?.lawyerId?.city}, {appointment?.lawyerId?.state}</p>
-
-
+                                                <div className="mb-4 ml-6">
+                                                    <h5 className="text-gray-500">
+                                                        {loading ? (
+                                                            <Skeleton className="rounded-lg h-5 w-32 mb-2 inline-block" />
+                                                        ) : (
+                                                            appointment?.lawyerId?.designation || "Designation not available"
+                                                        )}
+                                                    </h5>
+                                                    <p className="text-gray-500">
+                                                        {loading ? (
+                                                            <Skeleton className="rounded-lg h-5 w-28 inline-block" />
+                                                        ) : (
+                                                            `${appointment?.lawyerId?.city}, ${appointment?.lawyerId?.state || ""}`
+                                                        )}
+                                                    </p>
                                                 </div>
                                             </div>
-
                                         </div>
+
 
                                         <div className='w-1/2'>
                                             <p className=" border-gray-300 w-full rounded font-semibold ">  Case Description:</p>
@@ -272,7 +312,7 @@ const ViewOneAppointment: React.FC<ViewOneAppointmentProps> = ({ AppointmentId }
                                         <div className=" items-center lg:flex-row lg:flex justify-between">
                                             <div className='m-6'>
                                                 <span className="text-lg font-semibold">Total:</span>
-                                                <span className="text-2xl font-bold text-gray-800">   ₹{appointment?.subTotal || 'N/A'}</span>
+                                                <span className="text-2xl font-bold text-gray-800">{appointment?.subTotal || 'N/A'} </span>
                                             </div>
 
 

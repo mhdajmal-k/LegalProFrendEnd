@@ -48,33 +48,39 @@ export default function Wallet() {
                 <div>
                     <h3 className="text-lg font-semibold mb-2">Recent Transactions</h3>
                     <ScrollShadow className="h-[250px]">
-                        {transactions.map((transaction) => (
-                            <div
-                                key={transaction._id}
-                                className="flex items-center justify-between py-3 border-b last:border-none"
-                            >
-                                <div className="flex items-center">
-                                    <div className="ml-3">
-
-                                        <p className="text-xs text-muted-foreground">{new Date(transaction.timestamp).toDateString()}</p>
+                        {transactions.length === 0 ? (
+                            <p>No transactions available.</p>
+                        ) : (
+                            transactions.map((transaction) => (
+                                <div
+                                    key={transaction._id}
+                                    className="flex items-center justify-between py-3 border-b last:border-none"
+                                >
+                                    <div className="flex items-center">
+                                        <div className="ml-3">
+                                            <p className="text-xs text-muted-foreground">
+                                                {new Date(transaction?.timestamp).toDateString()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h2>{transaction?.description}</h2>
+                                    </div>
+                                    <div
+                                        className={`flex items-center ${transaction?.type === "credit" ? "text-green-500" : "text-red-500"
+                                            }`}
+                                    >
+                                        {transaction.type === "debit" ? (
+                                            <ArrowDownIcon className="mr-1 h-4 w-4" />
+                                        ) : (
+                                            <ArrowUpIcon className="mr-1 h-4 w-4" />
+                                        )}
+                                        <span className="text-sm font-semibold">${transaction?.amount}</span>
                                     </div>
                                 </div>
-                                <div>
-                                    <h2>{transaction.description}</h2>
-                                </div>
-                                <div
-                                    className={`flex items-center ${transaction?.type === "credit" ? "text-green-500" : "text-red-500"
-                                        }`}
-                                >
-                                    {transaction.type === "debit" ? (
-                                        <ArrowDownIcon className="mr-1 h-4 w-4" />
-                                    ) : (
-                                        <ArrowUpIcon className="mr-1 h-4 w-4" />
-                                    )}
-                                    <span className="text-sm font-semibold">${transaction.amount}</span>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
+
                     </ScrollShadow>
                 </div>
             </CardBody>

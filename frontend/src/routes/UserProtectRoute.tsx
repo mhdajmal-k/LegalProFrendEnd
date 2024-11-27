@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectRoute: React.FC = () => {
     const { userInfo } = useSelector((state: RootState) => state.user);
-    return userInfo?._id ? <Outlet /> : <Navigate to="/login" />;
+    return userInfo ? <Outlet /> : <Navigate to="/login" />;
 
 
 };

@@ -24,7 +24,7 @@ const AdminNavbar: React.FC = () => {
                 <div className="flex items-center mx-2.5  m:items-center m:space-x-2  ">
                     <img src={Logo} className='w-10' alt="logo" />
 
-                    <Link to="/" className=" ml-3 first-line:font-bold text-white">
+                    <Link to="/lawyer" className=" ml-3 first-line:font-bold text-white">
                         Legal_Pro
                     </Link>
 
@@ -36,9 +36,6 @@ const AdminNavbar: React.FC = () => {
                     <Link to="/lawyer" className="hover:text-black">
                         HOME
                     </Link>
-                    <Link to="/services" className="hover:text-black">
-                        ABOUT
-                    </Link>
                     <Link to="/lawyer/blog" className="hover:text-black">
                         BLOG
                     </Link>
@@ -47,34 +44,6 @@ const AdminNavbar: React.FC = () => {
                 <div>
                     {lawyerInfo?.userName ? (
                         <div className='flex items-center space-x-4'>
-                            <div className='flex items-center'>
-                                <IoIosNotifications className="text-xl" />
-                            </div>
-                            <div className='flex items-center'>
-                                <FaHeart className="text-xl" />
-                            </div>
-                            {/* <Tooltip
-                                content={
-                                    <div className="py-2">
-                                        <Button className="w-full mb-2 justify-start" variant="light">
-                                            <Link to="/profile"> <div className="text-sm font-normal">Profile</div>
-                                            </Link>
-
-                                        </Button>
-                                        <Button className="w-full justify-start" variant="light">
-                                            <div className="text-sm font-normal" onClick={handleLogout}>LogOut</div>
-                                        </Button>
-                                    </div>
-                                }
-                            >
-                                <Avatar
-                                    isBordered
-                                    radius="full"
-                                    src={lawyerInfo.email || "https://i.pravatar.cc/150?u=default"}
-                                    alt={lawyerInfo.userName}
-                                    className="cursor-pointer"
-                                />
-                            </Tooltip> */}
                             <div>
                                 <span className="text-sm font-medium">{lawyerInfo.userName}</span>
                             </div>
@@ -123,10 +92,8 @@ const AdminNavbar: React.FC = () => {
             {isOpen && (
                 <div className="md:hidden mt-4 space-y-2 text-white">
 
-                    <Link to="/services" className="block hover:underline">
-                        ABOUT
-                    </Link>
-                    <Link to="/contact" className="block hover:underline">
+
+                    <Link to="/blogs" className="block hover:underline">
                         BLOG
                     </Link>
                     <div>

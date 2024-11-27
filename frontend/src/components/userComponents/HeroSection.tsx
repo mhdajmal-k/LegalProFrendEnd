@@ -20,7 +20,7 @@ const HeroSection: React.FC = React.memo(() => {
         e.preventDefault()
         try {
             if (searchInput.current) {
-                alert(searchInput.current.value)
+
                 const prompt = searchInput.current.value
                 if (prompt.trim() == "") {
                     toast(<CustomToast message={"search Query is required"} type="error" />);
@@ -30,7 +30,7 @@ const HeroSection: React.FC = React.memo(() => {
                 const response = await dispatch(AISearch(prompt)).unwrap()
                 console.log(response, "is the ai response")
                 if (response.status) {
-                    alert("hi")
+
                     searchInput.current.value = ""
                     setResult(response.result);
                 }

@@ -3,13 +3,16 @@ import { UserState } from "../../../utils/type/userType";
 import {
   AISearch,
   createAppointment,
+  fetchAppointmentDataById,
   fetchLawyer,
   fetchLawyerById,
+  getReviews,
   googleSignup,
   loginUser,
   // logOut,
   resendOtp,
   signUpUser,
+  topLawyers,
   updateUserProfileData,
   verifyOtp,
 } from "./userServices";
@@ -146,6 +149,30 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(createAppointment.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      })
+      .addCase(topLawyers.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(topLawyers.fulfilled, (state) => {
+        state.error = "";
+        state.loading = false;
+      })
+      .addCase(topLawyers.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      })
+      .addCase(fetchAppointmentDataById.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(fetchAppointmentDataById.fulfilled, (state) => {
+        state.error = "";
+        state.loading = false;
+      })
+      .addCase(fetchAppointmentDataById.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

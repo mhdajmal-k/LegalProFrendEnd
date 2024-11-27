@@ -3,6 +3,7 @@ import CLENTTOCLIENT from "../../assets/images/CLENT TO CLIENT.jpg";
 import ENNOVATIVE from "../../assets/images/ENNOVATIVE.jpeg";
 import { motion } from 'framer-motion';
 import SPECIALISE from "../../assets/images/SPECIALISE EXP.jpg";
+import calendar from "../../assets/images/calendar.jpg";
 
 
 
@@ -27,7 +28,7 @@ const UserFeature: React.FC = () => {
 
                         className='flex flex-col lg:flex-row lg:justify-between p-7 items-center mt-8 ml-10 mb-10'>
                         <div className="w-[75%] lg:w-1/3 mb-8 mt-3 lg:mb-0">
-                            <img src={CLENTTOCLIENT} alt="Laptop Consultation" className="w-full h-auto rounded-lg shadow-lg" />
+                            <img src={CLENTTOCLIENT} alt="Laptop Consultation" loading="lazy" className="w-full h-auto rounded-lg shadow-lg" />
                         </div>
                         <div className="lg:w-2/3 lg:pl-8">
                             <h2 className="text-3xl font-bold mb-4">Client-Focused Service</h2>
@@ -43,12 +44,12 @@ const UserFeature: React.FC = () => {
                         transition={{ duration: 0.6 }}
                         className='flex flex-col lg:flex-row lg:justify-between p-7 items-center mt-8 ml-10 mb-10'>
                         <div className="lg:w-2/3 lg:pl-8">
-                            <h2 className="text-3xl font-bold mb-4">Specialized Expertise</h2>
+                            <h2 className="text-3xl font-bold mb-4">Specialized  and Verified Expertise</h2>
                             <p className="text-gray-600">
                                 Our team has in-depth knowledge and experience in various fields, including corporate law, intellectual property, and litigation. This allows us to offer comprehensive legal support for businesses of all sizes.                            </p>
                         </div>
                         <div className="w-full lg:w-1/3 mb-8 mt-3 lg:mb-0">
-                            <img src={SPECIALISE} alt="Laptop Consultation" className="w-full h-auto rounded-lg shadow-lg" />
+                            <img src={SPECIALISE} alt="Laptop Consultation" loading="lazy" className="w-full h-auto rounded-lg shadow-lg" />
                         </div>
                     </motion.div>
 
@@ -59,7 +60,7 @@ const UserFeature: React.FC = () => {
                         transition={{ duration: 0.6 }}
                         className='flex flex-col lg:flex-row lg:justify-between p-7 items-center mt-8 ml-10 mb-10'>
                         <div className="w-full lg:w-1/3 mb-8 mt-3 lg:mb-0">
-                            <img src={ENNOVATIVE} alt="Boost Your Income" className="w-full h-auto rounded-lg shadow-lg" />
+                            <img src={ENNOVATIVE} alt="Boost Your Income" loading="lazy" className="w-full h-auto rounded-lg shadow-lg" />
                         </div>
                         <div className="lg:w-2/3 lg:pl-8">
                             <h2 className="text-3xl font-bold mb-4">Innovative Technology</h2>
@@ -68,21 +69,20 @@ const UserFeature: React.FC = () => {
                         </div>
                     </motion.div>
 
-                    {/* <motion.div
+                    <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                         className='flex flex-col lg:flex-row lg:justify-between p-7 items-center mt-8 ml-10 mb-10'>
                         <div className="lg:w-2/3 lg:pl-8">
-                            <h2 className="text-3xl font-bold mb-4">Grow Your Professional Network</h2>
+                            <h2 className="text-3xl font-bold mb-4">Schedule Appointments with Ease</h2>
                             <p className="text-gray-600">
-                                Clients can rate your consultations, building your reputation and attracting more consultations and clients over time. Helping you build a trusted reputation as a subject matter expert.
-                            </p>
+                                No more back-and-forth communication! Our Appointment Scheduler allows you to view advocates' availability and book consultations instantly. Whether you need in-person or virtual meetings, scheduling is simple, fast, and efficient.                                       </p>
                         </div>
                         <div className="w-full lg:w-1/3 mb-8 mt-3 lg:mb-0">
-                            <img src={grow} alt="Grow Your Professional Network" className="w-full h-auto rounded-lg shadow-lg" />
+                            <img src={calendar} alt="Grow Your Professional Network" loading="lazy" className="w-full h-auto rounded-lg shadow-lg" />
                         </div>
-                    </motion.div> */}
+                    </motion.div>
 
 
                 </div>
