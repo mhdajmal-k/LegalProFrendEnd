@@ -3,14 +3,8 @@ import Logo from '../assets/images/logo.png';
 import { Button } from "@nextui-org/button";
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState, } from '../services/store/store';
-import { IoIosNotifications } from "react-icons/io";
-import { FaHeart } from "react-icons/fa";
-// import { Tooltip, Avatar } from "@nextui-org/react";
-// import { userLogout } from '../services/store/features/userSlice';
-// import { logOut } from '../services/store/features/userServices';
-// import CustomToast from '../components/userComponents/CustomToast';
-// import { toast } from 'sonner';
+import { RootState } from '../services/store/store';
+
 
 
 const AdminNavbar: React.FC = () => {

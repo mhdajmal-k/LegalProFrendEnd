@@ -1,8 +1,8 @@
 import { Avatar, Card, CardBody, CardHeader, Skeleton } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ReactStars from "react-stars";
-import { AppDispatch, RootState } from "../../services/store/store";
+import { AppDispatch } from "../../services/store/store";
 import { Review } from "../../utils/type/userType";
 import { getReviews } from "../../services/store/features/userServices";
 import CustomToast from "./CustomToast";
