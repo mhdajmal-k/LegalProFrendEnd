@@ -35,8 +35,8 @@ export function ReviewCard({ appointmentId }: { appointmentId: string | undefine
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 items-center justify-center">
             {loading ? (
-                // Show shimmer while loading
-                Array(6)
+
+                Array(3)
                     .fill(null)
                     .map((_, idx) => (
                         <Card key={idx} className="p-3 shadow-lg">
