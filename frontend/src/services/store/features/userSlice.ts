@@ -6,7 +6,6 @@ import {
   fetchAppointmentDataById,
   fetchLawyer,
   fetchLawyerById,
-  getReviews,
   googleSignup,
   loginUser,
   // logOut,
