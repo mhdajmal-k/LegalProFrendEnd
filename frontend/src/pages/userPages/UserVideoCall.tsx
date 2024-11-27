@@ -161,17 +161,20 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             // Use the enhanced configuration
             peerConnection.current = new RTCPeerConnection({
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    { urls: 'stun:stun1.l.google.com:19302' },
-                    // Add TURN server configuration
-                    {
-                        urls: 'turn:your-turn-server.com:3478',
-                        username: 'your-username',
-                        credential: 'your-password'
-                    }
-                ],
-                iceTransportPolicy: 'all'
+                // iceServers: [
+                //     { urls: 'stun:stun.l.google.com:19302' },
+                //     { urls: 'stun:stun1.l.google.com:19302' },
+                //     // Add TURN server configuration
+                //     {
+                //         urls: 'turn:your-turn-server.com:3478',
+                //         username: 'your-username',
+                //         credential: 'your-password'
+                //     }
+                // ],
+                // iceTransportPolicy: 'all'
+
+                iceServers: [{ urls: ["stun:bn-turn1.xirsys.com"] }, { username: "6-Y9loHcFesyB2JASf4DXDre43Z-G_SvUxln5hiVrJVlb3tcl88YCgqFGbbsx8NxAAAAAGdHQepham1hbA==", credential: "9aee5d16-acd8-11ef-9ee5-0242ac140004", urls: ["turn:bn-turn1.xirsys.com:80?transport=udp", "turn:bn-turn1.xirsys.com:3478?transport=udp", "turn:bn-turn1.xirsys.com:80?transport=tcp", "turn:bn-turn1.xirsys.com:3478?transport=tcp", "turns:bn-turn1.xirsys.com:443?transport=tcp", "turns:bn-turn1.xirsys.com:5349?transport=tcp"] }]
+
             });
 
             // Add connection state logging

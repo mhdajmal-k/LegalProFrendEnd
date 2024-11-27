@@ -27,9 +27,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     userLogout: (state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (state.loading = false), (state.userInfo = null), (state.error = "");
     },
     clearError: (state) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       (state.error = ""), (state.loading = false);
     },
   },
