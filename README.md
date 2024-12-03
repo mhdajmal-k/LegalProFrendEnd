@@ -21,10 +21,12 @@ Welcome to the **LegalPro Frontend** repository. This project is part of the **L
 
 - **Languages**: JavaScript, TypeScript
 - **Framework**: React.js
+-  **Communication**: WebRTC, Socket.io
 - **State Management**: Redux, Redux Toolkit
-- **Styling**: Tailwind CSS, Bootstrap
+- **Styling**: Tailwind CSS, nextUI
+-  **UI Form Management**: Formik
 - **API Testing**: Postman
-- **Other Tools**: Axios, Chart.js
+- **Other Tools**: Axios, 
 
 ---
 
