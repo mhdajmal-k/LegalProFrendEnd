@@ -3,8 +3,10 @@
 Welcome to the **LegalPro Frontend** repository. This project is part of the **LegalPro** system, a platform designed to simplify and streamline legal service booking. The frontend is built using modern web technologies to deliver a responsive and intuitive user experience.
 
 ---
+
 ### Home Page
-![Home Page](assets/screenshots/homepage.png)
+![Home Page](https://raw.githubusercontent.com/mhdajmal-k/LegalProFrendEnd/main/frontend/src/assets/screenshot/homepage.png)
+
 ## 🚀 Features
 
 - User-friendly interface for clients and legal professionals.
