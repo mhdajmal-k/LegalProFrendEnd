@@ -107,6 +107,7 @@ export interface BlogType {
   category: string;
   content: string;
   image?: string;
+  publish: boolean;
   author: {
     userName: string;
     profile_picture: string;
