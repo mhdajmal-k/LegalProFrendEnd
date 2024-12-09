@@ -13,6 +13,8 @@ import CommonPagination from '../Pagination'
 const LawyerBlogListing = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     let [currentPage, setCurrentPage] = useState<number>(1);
+    // const { loading } = useSelector((state: RootState) => state.lawyer)
+    const [loading, setLoading] = useState(false);
     // const [totalPages, setTotalPages] = useState<number>(1);
     const [lawyerPerPage] = useState<number>(6);
     const dispatch: AppDispatch = useDispatch();
@@ -33,6 +35,7 @@ const LawyerBlogListing = () => {
 
         fetchBlogs();
     }, [dispatch, currentPage, lawyerPerPage]);
+
     const fetchBlogs = async () => {
         try {
             const response = await dispatch(fetchLawyerBlogs({
@@ -66,6 +69,7 @@ const LawyerBlogListing = () => {
     };
     const handileCreate = async (onClose: () => void) => {
         try {
+            setLoading(true)
             const data = new FormData();
             data.append('title', formValues.mainTitle);
             data.append('category', formValues.category);
@@ -78,11 +82,18 @@ const LawyerBlogListing = () => {
             toast(<CustomToast message={response.message} type="success" />);
             setSelectedImage(null);
             setPreviewImage(null);
+            setFormValues({
+                mainTitle: "",
+                category: "",
+                mainText: ""
+            })
             fetchBlogs()
             onClose()
 
         } catch (error: any) {
             toast(<CustomToast message={error || error.message} type="error" />);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -159,14 +170,20 @@ const LawyerBlogListing = () => {
                                 <Button color="warning" variant="flat" onPress={onClose}>
                                     Close
                                 </Button>
+
                                 <Button
+                                    className={loading ? "disabled" : ""}
                                     color="success"
-                                    onPress={() => {
-                                        handileCreate(onClose)
+                                    disabled={loading} // Disable button during loading
+                                    onClick={() => {
+                                        if (!loading) {
+                                            handileCreate(onClose); // Trigger blog creation
+                                        }
                                     }}
                                 >
-                                    Create
+                                    {loading ? "Creating..." : "Create"}
                                 </Button>
+
                             </ModalFooter>
                         </>
                     )}

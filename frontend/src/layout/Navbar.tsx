@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import Logo from '../assets/images/logo.png';
 import { Button } from "@nextui-org/button";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../services/store/store';
 import { Tooltip, Avatar } from "@nextui-org/react";
@@ -11,7 +11,7 @@ import CustomToast from '../components/userComponents/CustomToast';
 import { toast } from 'sonner';
 
 const Navbar: React.FC = React.memo(() => {
-
+  const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const { userInfo } = useSelector((state: RootState) => state.user, shallowEqual);
@@ -52,8 +52,8 @@ const Navbar: React.FC = React.memo(() => {
               <Tooltip
                 content={
                   <div className="py-2">
-                    <Button className="w-full mb-2 justify-start" variant="light">
-                      <Link to="/profile">Profile</Link>
+                    <Button className="w-full mb-2 justify-start" variant="light" onClick={() => { navigate("/profile") }}>
+                      Profile
                     </Button>
                     <Button className="w-full justify-start" variant="light" onClick={handleLogout}>
                       LogOut

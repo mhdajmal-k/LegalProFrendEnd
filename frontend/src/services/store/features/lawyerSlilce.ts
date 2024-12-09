@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+  crateBlog,
   LawyerFetchAppointmentDataById,
   lawyerVerifyOtp,
   loginLawyer,
@@ -82,6 +83,16 @@ const lawyerSlice = createSlice({
         state.loading = false;
       })
       .addCase(LawyerFetchAppointmentDataById.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(crateBlog.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(crateBlog.fulfilled, (state) => {
+        // state.lawyerInfo = actions.payload.result;
+        state.loading = false;
+      })
+      .addCase(crateBlog.rejected, (state) => {
         state.loading = false;
       });
   },

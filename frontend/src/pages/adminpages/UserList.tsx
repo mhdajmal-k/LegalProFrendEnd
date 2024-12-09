@@ -60,8 +60,8 @@ const UsersList: React.FC = () => {
                                 if (response.status) {
 
                                     if (response.message == "user blocked successFully") {
-
-                                        dispatch(userLogout());
+                                        alert("hi")
+                                        await dispatch(userLogout());
                                     }
 
                                     toast(<CustomToast message={response.message} type="success" />);

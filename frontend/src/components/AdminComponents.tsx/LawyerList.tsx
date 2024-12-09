@@ -49,9 +49,10 @@ const LawyerTableList: React.FC<LawyerTableListProps> = ({ columns, data, onRefr
                                 if (response.status) {
 
                                     if (response.message == "user blocked successFully") {
-
-                                        dispatch(logout());
+                                        await dispatch(logout());
                                     }
+
+                                    console.log(response, "is the looking response")
                                     toast(<CustomToast message={response.message} type="success" />);
                                     onRefresh();  // Refresh the data
                                 }

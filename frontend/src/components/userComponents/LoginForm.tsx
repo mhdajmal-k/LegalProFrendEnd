@@ -16,7 +16,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from "../../config/firbase"
 import ResetPasswordModal from '../ForgotPasswordModa';
 const LoginForm: React.FC = () => {
-    const [showPassword, setShowPassword] = useState<Boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const navigate = useNavigate()
     const dispatch: AppDispatch = useDispatch()
@@ -143,15 +143,15 @@ const LoginForm: React.FC = () => {
                             <ResetPasswordModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} role="user" />
                         </div>
                         {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
-                        <div>
-                            <Button
-                                variant="bordered"
-                                className="w-full mt-1"
-                                startContent={<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" onClick={handleGoogle} className="w-5 h-5" />}
-                            >
-                                Sign In with Google
-                            </Button>
-                        </div>
+                        {/* <div onClick={handleGoogle}> */}
+                        <Button onClick={handleGoogle}
+                            variant="bordered"
+                            className="w-full mt-1"
+                            startContent={<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" className="w-5 h-5" />}
+                        >
+                            Sign In with Google
+                        </Button>
+                        {/* </div> */}
 
                     </form>
 
