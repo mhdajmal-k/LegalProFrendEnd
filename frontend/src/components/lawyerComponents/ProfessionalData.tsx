@@ -99,7 +99,6 @@ const ProfessionalData: React.FC = () => {
             if (selectedImageIndia) formData.append('imageIndia', selectedImageIndia);
             if (selectedImageKerala) formData.append('imageKerala', selectedImageKerala);
             try {
-                console.log(formData, "is the form data in the professionalData")
                 const response = await dispatch(verifyProfessionalData(formData)).unwrap();
 
                 if (response.status) {

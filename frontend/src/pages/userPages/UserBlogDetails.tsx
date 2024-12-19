@@ -17,10 +17,8 @@ const ViewBlogUserSide: React.FC = () => {
     useEffect(() => {
         const fetchBlog = async () => {
             try {
-                // Assuming you have an action creator `crateBlog` for fetching a blog
                 const response = await dispatch(fetchOneBlogUserSide(blogId as string)).unwrap();
                 setBlogs(response.result)
-                toast(<CustomToast message={response.message} type="success" />);
             } catch (error: any) {
                 toast(<CustomToast message={error.message || 'Failed to fetch blog'} type="error" />);
             }

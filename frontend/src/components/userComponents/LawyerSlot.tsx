@@ -56,7 +56,6 @@ const LawyerSlot: React.FC<LawyerSlotProps> = ({ lawyerId, lawyer }) => {
             setFetchedSlots(response.result);
 
         } catch (error: any) {
-            console.log(error, "is the error in slot compo")
             toast(<CustomToast message={error.message} type="error" />);
         }
     };
@@ -71,12 +70,10 @@ const LawyerSlot: React.FC<LawyerSlotProps> = ({ lawyerId, lawyer }) => {
         const slotsForSelectedDate = fetchedSlots?.slots.find(
             (slot) => new Date(slot.date).toDateString() === selectedDate?.toDateString()
         );
-        console.log(slotsForSelectedDate, "is the specific Slot Id")
         const selectedSlot = slotsForSelectedDate?.availability.find((slot) => slot.timeSlot === time);
         if (selectedSlot) {
             setFee(selectedSlot?.fee || null);
             setSelectedSpecificSlot(selectedSlot?._id)
-            console.log(selectedSpecificSlot)
 
         }
 

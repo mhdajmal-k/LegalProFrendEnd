@@ -16,7 +16,6 @@ const ApprovalLawyerList: React.FC = () => {
       const response = await dispatch(getPendingApprovalLawyers()).unwrap();
       setLawyer(response.result);
     } catch (error: any) {
-      console.log(error);
       toast(<CustomToast message={error || error.message} type="error" />);
     }
   };

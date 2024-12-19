@@ -24,8 +24,8 @@ export default function Wallet() {
                     setTransactions(response.result.getTransactionDetails)
                 }
             } catch (error: any) {
-
-                toast(<CustomToast message={error || error.message} type="error" />);
+                // alert("hi")
+                // toast(<CustomToast message={error || error.message} type="error" />);
             }
 
         }

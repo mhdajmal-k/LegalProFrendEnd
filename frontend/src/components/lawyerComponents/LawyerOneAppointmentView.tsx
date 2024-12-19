@@ -31,7 +31,6 @@ const ViewOneAppointmentDetails: React.FC<ViewOneAppointmentProps> = ({ Appointm
     const fetchAppointment = async (appointmentId: string | undefined) => {
         try {
             const response = await dispatch(LawyerFetchAppointmentDataById(appointmentId)).unwrap();
-            console.log(response.result, "is the lawyer appointment")
             setAppointments(response.result);
         } catch (error: any) {
             toast(<CustomToast message={error.message || 'Error fetching appointments'} type="error" />);

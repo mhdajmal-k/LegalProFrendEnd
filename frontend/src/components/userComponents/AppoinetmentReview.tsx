@@ -71,7 +71,6 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
                         };
 
                         response = await dispatch(verifyPayment(verifyData)).unwrap()
-                        console.log(response, "is the iam looking the result")
                         if (response.status) {
                             const AppointmentId = response.result._id as string
 
@@ -93,7 +92,6 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
                 rzp1.on('payment.failed', async function (response: any) {
                     // Handle payment failure
                     // toast(<CustomToast message={response.error.description} type="error" />);
-                    console.log(response, "is the payment failed response");
 
                     response = await dispatch(filedPayment(appointmentId as string)).unwrap();
                     if (response.status) {
@@ -106,7 +104,6 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
 
             }
         } catch (error: any) {
-            console.log(error, "is the error")
 
 
             toast(<CustomToast message={error || error.message} type="error" />);

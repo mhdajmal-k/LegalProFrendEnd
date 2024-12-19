@@ -45,9 +45,7 @@ const AdminNavbar: React.FC = () => {
                     ) : (
                         <div className="sm:flex sm:space-x-4 hidden">
                             <Button size="sm" className="bg-secondary text-black font-bold hover:bg-secondary-50">
-                                <Link to="/">
-                                    Back to User
-                                </Link>
+                                signup
                             </Button>
                             <Button size="sm" className="bg-secondary text-black font-bold hover:bg-secondary-50">
                                 <Link to="/lawyer/signup" className='uppercase'>

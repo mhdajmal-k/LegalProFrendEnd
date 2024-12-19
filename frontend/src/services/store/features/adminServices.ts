@@ -69,7 +69,6 @@ export const getPendingApprovalLawyers = createAsyncThunk(
       const response = await axiosInstance.get<response>(
         FETCHPENDINGAPPROVALLAWYERS
       );
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -91,7 +90,6 @@ export const getLawyer = createAsyncThunk(
       const response = await axiosInstance.get<response>(
         `${FETCHLAWYER}/${id}`
       );
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -117,7 +115,6 @@ export const getLawyers = createAsyncThunk(
       const response = await axiosInstance.get<response>(`${FETCHLAWYERS}`, {
         params: { page, limit },
       });
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -137,12 +134,9 @@ export const verifyLawyer = createAsyncThunk(
   "admin/verifyLawyer",
   async (id: string, { rejectWithValue }) => {
     try {
-      console.log("hi");
-      console.log(id);
       const response = await axiosInstance.patch<response>(
         `${VERIFYLAWYER}/${id}`
       );
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -168,7 +162,6 @@ export const undVerifyLawyer = createAsyncThunk(
         `${UNVERIFYLAWYER}/${id}`,
         { reason }
       );
-      console.log(response.data, "//////////////////////////////////");
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -190,7 +183,6 @@ export const blockandUnblock = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log(state, "is the state");
       const response = await axiosInstance.patch<response>(
         `${BLOCKANDUNBLOCK}/${id}`,
         { state, action }
@@ -281,7 +273,6 @@ export const adminLogOut = createAsyncThunk(
   "user/adminLogOut",
   async (_, { rejectWithValue }) => {
     try {
-      console.log("hi");
       const response = await axiosInstance.delete<response>(ADMINLOGOUT);
       return response.data;
     } catch (error) {

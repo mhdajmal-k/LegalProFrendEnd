@@ -44,15 +44,15 @@ const UserProfileLayout = () => {
             <div className="container my-7 px-8 mx-auto sm:my-16 sm:px-36 justify-center items-center">
                 <div className="flex flex-col md:flex-row border bg-white rounded-lg shadow-lg overflow-hidden">
                     <div className=" md:w-1/4 bg-primary p-6 flex flex-col items-center text-white">
-                        <div className="mb-4">
-                            <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden">
+                        <div className="mb-20">
+                            {/* <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden">
                                 <img
                                     src={userInfo?.profilePicture ?? 'https://via.placeholder.com/150'}
 
                                     alt="User Avatar"
                                     className="w-full h-full object-contain rounded-full"
                                 />
-                            </div>
+                            </div> */}
                         </div>
 
                         <h2 className="text-2xl font-bold mb-2">{userInfo?.userName}</h2>

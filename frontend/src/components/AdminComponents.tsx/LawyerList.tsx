@@ -52,7 +52,6 @@ const LawyerTableList: React.FC<LawyerTableListProps> = ({ columns, data, onRefr
                                         await dispatch(logout());
                                     }
 
-                                    console.log(response, "is the looking response")
                                     toast(<CustomToast message={response.message} type="success" />);
                                     onRefresh();  // Refresh the data
                                 }

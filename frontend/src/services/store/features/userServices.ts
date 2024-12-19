@@ -184,13 +184,10 @@ export const forgotpassword = createAsyncThunk(
 
 export const updateUserProfileData = createAsyncThunk(
   "user/updateUserProfileData",
-  async (
-    { profileData, id }: { profileData: FormData; id: string | undefined },
-    { rejectWithValue }
-  ) => {
+  async ({ profileData }: { profileData: FormData }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.put(
-        `${UPDATEPROFILEDATA}/${id}`,
+        `${UPDATEPROFILEDATA}`,
         profileData,
         {
           headers: {

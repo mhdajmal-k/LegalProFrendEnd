@@ -30,8 +30,7 @@ const AdminLoginForm: React.FC = () => {
         onSubmit: async (values) => {
             try {
                 const response = await dispatch(adminLogin(values)).unwrap()
-                // console.log(response)
-                // alert("hi")
+
                 if (response.status) {
                     navigate('/admin/dashboard');
                 }

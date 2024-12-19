@@ -29,7 +29,6 @@ const ViewLawyerProfile: React.FC<LawyerProfile> = ({ id }) => {
                 try {
                     const response = await dispatch(fetchLawyerById(id)).unwrap();
                     setLawyer(response.result);
-                    console.log(response, "is the response");
                 } catch (error: any) {
                     toast(<CustomToast message={error || error.message} type="error" />);
                     console.error('Error fetching lawyer data:', error);

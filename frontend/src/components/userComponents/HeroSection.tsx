@@ -28,7 +28,6 @@ const HeroSection: React.FC = React.memo(() => {
                 }
                 setSearching(true)
                 const response = await dispatch(AISearch(prompt)).unwrap()
-                console.log(response, "is the ai response")
                 if (response.status) {
 
                     searchInput.current.value = ""

@@ -65,7 +65,6 @@ const LawyerProfile: React.FC = () => {
                 formData.append('profilePicture', values.profilePicture);
             }
             try {
-                console.log(formData, "is the form data in the professionalData")
                 const response = await dispatch(updateProfessionalData(formData)).unwrap();
 
                 if (response.status) {

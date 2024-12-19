@@ -58,7 +58,6 @@ const SignUpForm: React.FC = () => {
 
 
             } catch (error: any) {
-                console.log(error, "from here")
                 toast(<CustomToast message={error || error.message} type="error" />);
             }
 

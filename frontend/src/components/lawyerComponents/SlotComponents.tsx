@@ -151,7 +151,7 @@ const SlotComponents: React.FC = () => {
         return slotDateTime.isBefore(now);
     };
     const handleDelete = async () => {
-        console.log(editingSlot?._id)
+
         try {
             const response = await dispatch(deleteSlot(editingSlot?._id)).unwrap();
             if (response.status) {

@@ -49,7 +49,6 @@ const FindLawyer: React.FC = () => {
 
             setLawyers(response.result.lawyers);
             setTotalPages(response.result.totalPages);
-            console.log(totalPages, "is the response")
         } catch (error: any) {
             toast(<CustomToast message={error || error.message} type="error" />);
 

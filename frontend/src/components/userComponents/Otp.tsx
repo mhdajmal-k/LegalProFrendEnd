@@ -9,9 +9,7 @@ import CustomToast from './CustomToast';
 import { toast } from 'sonner';
 import { clearError } from '../../services/store/features/userSlice';
 
-
-const OtpFrom: React.FC = () => {
-
+const OtpForm: React.FC = () => {
     const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
     const [timer, setTimer] = useState<number>(60);
     const [otpError, setOtpError] = useState<string>("");
@@ -38,53 +36,85 @@ const OtpFrom: React.FC = () => {
         }
 
         return () => clearInterval(Timer);
-    }, [timer, error]);
+    }, [dispatch, error, timer]);
 
     const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const value = e.target.value;
-        if (/^\d$/.test(value)) {
+
+        // Allow empty value for clearing
+        if (value === '' || /^\d$/.test(value)) {
             const newOtp = [...otp];
             newOtp[index] = value;
             setOtp(newOtp);
             setOtpError("");
 
-            const nextInput = document.getElementById(`otp-${index + 1}`);
-            if (nextInput) {
-                (nextInput as HTMLInputElement).focus();
+
+            if (value !== '' && index < 5) {
+                const nextInput = document.getElementById(`otp-${index + 1}`);
+                if (nextInput) {
+                    (nextInput as HTMLInputElement).focus();
+                }
             }
         }
     };
-    const OtpResend = async () => {
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+        if (e.key === 'Backspace') {
+            if (index > 0 && otp[index] === '') {
+                const newOtp = [...otp];
+                const prevInput = document.getElementById(`otp-${index - 1}`);
+                if (prevInput) {
+                    (prevInput as HTMLInputElement).focus();
+                    newOtp[index - 1] = '';
+                    setOtp(newOtp);
+                }
+            } else {
+                const newOtp = [...otp];
+                newOtp[index] = '';
+                setOtp(newOtp);
+            }
+            setOtpError("");
+        }
+    };
+
+    const clearOtp = () => {
+        setOtp(Array(6).fill(""));
+        const firstInput = document.getElementById('otp-0');
+        if (firstInput) {
+            (firstInput as HTMLInputElement).focus();
+        }
+    };
+
+    const OtpResend = async () => {
         try {
             const response = await dispatch(resendOtp()).unwrap()
             if (response) {
+                clearOtp();
                 toast(<CustomToast message={response.message} type="success" />);
             }
         } catch (error: any) {
+
             toast(<CustomToast message={error || error.message} type="error" />);
         }
-
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const otpCode = otp.join('');
-        if (otpCode == "") toast(<CustomToast message="otp is required" type="error" />);
+        if (otpCode === "") {
+            toast(<CustomToast message="OTP is required" type="error" />);
+            return;
+        }
+
         try {
             const response = await dispatch(verifyOtp(otpCode)).unwrap()
             navigate("/")
             toast(<CustomToast message={response.message} type="success" />);
         } catch (error: any) {
-            setOtp(Array(6).fill(""));
-            console.log(error, "dddddddddddddddddddddddddd")
+            clearOtp(); // Clear OTP fields on error
             toast(<CustomToast message={error} type="error" />);
         }
-
     };
-
-
-
 
     const isOtpComplete = otp.every((digit) => digit !== "");
 
@@ -107,6 +137,7 @@ const OtpFrom: React.FC = () => {
                                 maxLength={1}
                                 value={digit}
                                 onChange={(e) => handleOtpChange(e, index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
                                 className="w-10 h-10 sm:w-12 sm:h-12 text-center border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-lg"
                                 required
                             />
@@ -120,14 +151,14 @@ const OtpFrom: React.FC = () => {
                 </form>
 
                 <div className='flex justify-between items-center mt-4'>
-                    <span>{timer > 0 ? `Resend OTP in ${timer}` : "Didn't Receive OTP?"}</span>
+                    <span>{timer > 0 ? `Resend OTP in ${timer}s` : "Didn't Receive OTP?"}</span>
 
                     {timer === 0 && (
                         <button
                             onClick={() => {
                                 setTimer(60);
                                 setResendEnabled(false);
-                                OtpResend()
+                                OtpResend();
                             }}
                             className={`text-blue-500 ${resendEnabled ? '' : 'disabled:text-gray-400'}`}
                             disabled={!resendEnabled}
@@ -142,4 +173,4 @@ const OtpFrom: React.FC = () => {
     );
 };
 
-export default OtpFrom;
+export default OtpForm;

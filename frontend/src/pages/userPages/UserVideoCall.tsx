@@ -51,7 +51,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
         const initializeSocketEvents = () => {
             socket?.on("userJoined", (socketId) => {
-                console.log("another user joined")
                 toast(<CustomToast message={"New contact online! You Can Call."} type="success" />, {
                     duration: 3000
                 });
@@ -62,7 +61,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             socket.on("offer", async ({ offer, userId }) => {
 
                 setIncomingCall(true);
-                console.log('Incoming call', offer, userId);
 
                 if (!peerConnection.current) {
                     await initializePeerConnection();
@@ -81,14 +79,12 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             socket.on("answer", async ({ answer }) => {
                 try {
                     await peerConnection.current?.setRemoteDescription(new RTCSessionDescription(answer));
-                    console.log("call accepted")
                 } catch (error) {
                     console.error("Error handling answer:", error);
                 }
             });
 
             socket.on("candidate", async ({ candidate }) => {
-                console.log("in here candidate")
                 try {
                     if (peerConnection.current?.remoteDescription) {
                         await peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
@@ -173,16 +169,9 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             });
 
-            // Add connection state logging
-            peerConnection.current.oniceconnectionstatechange = () => {
-                console.log('ICE Connection State:', peerConnection.current?.iceConnectionState);
-            };
 
-            peerConnection.current.onconnectionstatechange = () => {
-                console.log('Connection State:', peerConnection.current?.connectionState);
-            };
 
-            console.log(peerConnection.current, "is the peerConnection of the peer")
+
 
             localStream.getTracks().forEach(track => {
                 peerConnection.current?.addTrack(track, localStream);
@@ -190,7 +179,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
 
             peerConnection.current.onicecandidate = (event) => {
                 if (event.candidate) {
-                    console.log("Local ICE Candidate:", event.candidate);
                     socket?.emit("candidate", {
                         roomId: appointmentId,
                         candidate: event.candidate,
@@ -214,16 +202,6 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                     console.error("Error during negotiation:", err);
                 }
             };
-
-            // peerConnection.current.onicecandidate = (event) => {
-            //     if (event.candidate) {
-            //         socket?.emit("candidate", {
-            //             roomId: appointmentId,
-            //             candidate: event.candidate,
-            //             userId: currentSocketId
-            //         });
-            //     }
-            // };
 
             peerConnection.current.ontrack = (event) => {
                 setRemoteStream(event.streams[0]);

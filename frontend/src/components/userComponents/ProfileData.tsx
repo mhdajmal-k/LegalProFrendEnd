@@ -12,37 +12,40 @@ import { userDataUpdateValidator } from '../../utils/validator/loginValidaotr';
 interface FormValues {
     userName: string;
     email: string;
-    phoneNumber?: string;
-    profile_picture?: string
+    phoneNumber: string;
+    profile_picture?: string;
 }
 
 const ProfileData: React.FC = () => {
     const { userInfo, error, loading } = useSelector((state: RootState) => state.user);
     const [editMode, setEditMode] = useState(false);
     const [previewImage, setPreviewImage] = useState<string>("");
-    const [user, setUser] = useState<any>("");
+    const [userData, setUserData] = useState<any>(null);
     const [image, setImage] = useState<File | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
     const dispatch: AppDispatch = useDispatch();
 
+    const fetchUserData = async () => {
+        try {
+            const response = await dispatch(getUserProfileData()).unwrap();
+            setUserData(response.result);
+            // Reset form with new values
+            formik.resetForm({
+                values: {
+                    userName: response.result.userName || '',
+                    email: response.result.email || '',
+                    phoneNumber: response.result.phoneNumber || '',
+                }
+            });
+        } catch (error: any) {
+            toast(<CustomToast message={error || error.message} type="error" />);
+            console.error('Error fetching user data:', error);
+        }
+    };
+
     useEffect(() => {
-
-        const fetchUserData = async () => {
-
-            try {
-                const response = await dispatch(getUserProfileData()).unwrap();
-                setUser(response.result);
-                console.log(response, "is the response");
-            } catch (error: any) {
-                toast(<CustomToast message={error || error.message} type="error" />);
-                console.error('Error fetching lawyer data:', error);
-            }
-
-        };
         fetchUserData();
-    }, [dispatch,]);
-
-
+    }, [dispatch]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -56,54 +59,94 @@ const ProfileData: React.FC = () => {
         }
     };
 
-
     const formik = useFormik({
         initialValues: {
-            userName: user?.userName,
-            email: '',
-            phoneNumber: '',
+            userName: userData?.userName || '',
+            email: userData?.email || '',
+            phoneNumber: userData?.phoneNumber || '',
         },
         validationSchema: userDataUpdateValidator,
-        validateOnChange: editMode,
-        validateOnBlur: editMode,
+        enableReinitialize: true, // Enable form reinitialization when initialValues change
+        validateOnChange: true,
+        validateOnBlur: true,
         onSubmit: async (values: FormValues) => {
             const formData = new FormData();
+
+
+            // Only append changed values
             Object.entries(values).forEach(([key, value]) => {
-                formData.append(key, value as string);
+                if (value !== userData[key]) {
+                    formData.append(key, value as string);
+                }
             });
+
             if (image) {
                 formData.append("profilePic", image);
             }
-            setEditMode(false);
+
             try {
-                const response = await dispatch(updateUserProfileData({ profileData: formData, id: userInfo?._id })).unwrap();
+
+                const response = await dispatch(updateUserProfileData({
+                    profileData: formData,
+                })).unwrap();
+
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
+                    setEditMode(false);
+                    // Refresh user data after successful update
+                    fetchUserData();
                 }
             } catch (error: any) {
-                toast(<CustomToast message={error || error.message || 'An error occurred during Update password'} type="error" />);
+                toast(<CustomToast
+                    message={error || error.message || 'An error occurred during update'}
+                    type="error"
+                />);
             }
         },
-
     });
+
+    const handleEditToggle = () => {
+        if (editMode) {
+            // Reset form when canceling edit
+            formik.resetForm({
+                values: {
+                    userName: userData?.userName || '',
+                    email: userData?.email || '',
+                    phoneNumber: userData?.phoneNumber || '',
+                }
+            });
+            setPreviewImage('');
+            setImage(null);
+        }
+        setEditMode(!editMode);
+    };
 
     return (
         <div>
             <div className="mb-4 items-center flex justify-center flex-col">
                 <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden relative cursor-pointer">
                     <img
-                        src={previewImage || user?.profilePicture || 'https://via.placeholder.com/150'}
+                        src={previewImage || userData?.profilePicture || 'https://via.placeholder.com/150'}
                         alt="User Avatar"
                         className="w-full h-full object-contain rounded-full"
-                        onClick={() => fileRef.current?.click()}
+                        onClick={() => editMode && fileRef.current?.click()}
                     />
-                    <div className='absolute bottom-1 right-5'>
-                        <FaCirclePlus className='text-primary text-xl' />
-                    </div>
+                    {editMode && (
+                        <div className='absolute bottom-1 right-5'>
+                            <FaCirclePlus className='text-primary text-xl' />
+                        </div>
+                    )}
                 </div>
 
-                <input type='file' ref={fileRef} accept='image/*' className='hidden' onChange={handleFileChange} />
-                <p className='my-5'>Welcome {userInfo?.userName}.</p>
+                <input
+                    type='file'
+                    ref={fileRef}
+                    accept='image/*'
+                    className='hidden'
+                    onChange={handleFileChange}
+                    disabled={!editMode}
+                />
+                <p className='my-5'>Welcome {userData?.userName}.</p>
                 <form className='w-full md:w-2/3 pr-0 md:pr-4 md:ml-2 space-y-4 h-full' onSubmit={formik.handleSubmit}>
                     <Input
                         type="text"
@@ -113,7 +156,7 @@ const ProfileData: React.FC = () => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         isInvalid={editMode && !!formik.errors.userName && !!formik.touched.userName}
-                        value={formik.values.userName ?? user?.userName}
+                        value={formik.values.userName}
                         variant={editMode ? "bordered" : "flat"}
                         readOnly={!editMode}
                     />
@@ -125,7 +168,7 @@ const ProfileData: React.FC = () => {
                         label="Email"
                         name='email'
                         size="sm"
-                        value={user?.email || formik.values.email}
+                        value={formik.values.email}
                         readOnly
                     />
                     <Input
@@ -135,8 +178,8 @@ const ProfileData: React.FC = () => {
                         size="sm"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        isInvalid={!!formik.errors.phoneNumber && !!formik.touched.phoneNumber}
-                        value={user?.phoneNumber ?? formik.values.phoneNumber}
+                        isInvalid={editMode && !!formik.errors.phoneNumber && !!formik.touched.phoneNumber}
+                        value={formik.values.phoneNumber}
                         variant={editMode ? "bordered" : "flat"}
                         readOnly={!editMode}
                     />
@@ -147,17 +190,17 @@ const ProfileData: React.FC = () => {
                         <Button
                             color={editMode ? "default" : "primary"}
                             type="button"
-                            className=" flex-1"
-                            onClick={() => setEditMode((prevEditMode) => !prevEditMode)} // Toggle edit mode
+                            className="flex-1"
+                            onClick={handleEditToggle}
                         >
-                            {editMode ? 'Cancel' : 'Edit'} {/* Change button text based on edit mode */}
+                            {editMode ? 'Cancel' : 'Edit'}
                         </Button>
                         {editMode && (
                             <Button
                                 color="success"
                                 type="submit"
                                 className="flex-1"
-                                disabled={loading}
+                                disabled={loading || !formik.dirty}
                             >
                                 {loading ? 'Updating...' : 'Update'}
                             </Button>
