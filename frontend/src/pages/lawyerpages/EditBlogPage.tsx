@@ -80,9 +80,7 @@ const EditBlogPage: React.FC = () => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            console.log(articleName, "is article name")
-            console.log(description, "is article name")
-            console.log(category, "is article name")
+
 
             const formData = new FormData();
             formData.append('title', articleName);

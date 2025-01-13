@@ -502,8 +502,7 @@ export const editBlog = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      console.log(error);
-      console.log("error");
+
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {

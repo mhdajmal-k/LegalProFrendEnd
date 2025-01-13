@@ -105,7 +105,7 @@ export const googleSignup = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.post(GOOGLESIGNUP, data);
-      console.log(response, "is the responst");
+
       return response.data;
     } catch (error) {
       let errorMessage = "Network error. try again later.";
@@ -214,7 +214,7 @@ export const getUserProfileData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`${GETPROFILEDATA}`);
-      console.log(response, "profile data");
+
       return response.data;
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -401,10 +401,10 @@ export const createAppointment = createAsyncThunk(
           },
         }
       );
-      console.log(response, "is the create appointment");
-      return response.data;
+
+
     } catch (error) {
-      console.log(error, "is the error");
+
       let errorMessage = "An unknown error occurred";
       if (error instanceof AxiosError) {
         if (error.response) {
