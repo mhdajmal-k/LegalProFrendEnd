@@ -17,7 +17,7 @@ interface FormValues {
 }
 
 const ProfileData: React.FC = () => {
-    const { userInfo, error, loading } = useSelector((state: RootState) => state.user);
+    const { error, loading } = useSelector((state: RootState) => state.user);
     const [editMode, setEditMode] = useState(false);
     const [previewImage, setPreviewImage] = useState<string>("");
     const [userData, setUserData] = useState<any>(null);

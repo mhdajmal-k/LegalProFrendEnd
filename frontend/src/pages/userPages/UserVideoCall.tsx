@@ -58,7 +58,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
             })
 
 
-            socket.on("offer", async ({ offer, userId }) => {
+            socket.on("offer", async ({ offer }) => {
 
                 setIncomingCall(true);
 
@@ -115,6 +115,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
                 setStream(null);
                 setRemoteStream(null);
                 setIsCallStarted(false);
+                socket.off("connect");
             })
         };
 
