@@ -29,7 +29,8 @@ export const BlogListing: React.FC<BlogListingProps> = ({
 
         observer.current = new IntersectionObserver(async (entries) => {
             if (entries[0].isIntersecting && hasMore) {
-                await onLoadMore();
+                if (onLoadMore)
+                    await onLoadMore();
             }
         });
 

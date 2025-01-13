@@ -5,8 +5,7 @@ import { WalletCards } from 'lucide-react';
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../services/store/store";
 import { getWalletDetails } from "../services/store/features/userServices";
-import CustomToast from "./userComponents/CustomToast";
-import { toast } from "sonner";
+
 import { ITransaction } from "../utils/type/userType";
 
 

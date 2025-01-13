@@ -34,7 +34,7 @@ const LawyerProfile: React.FC = () => {
                     gender: response.result.gender || '',
                     city: response.result.city || '',
                     state: response.result.state || '',
-                    practiceArea: response.result.practice_area || [],
+                    practiceArea: response.result.practice_area || [] || "",
                     yearsOfExperience: response.result.years_of_experience || '',
                     barCouncilNumber: response.result.certifications?.[0]?.enrolmentNumber || '',
                     stateBarCouncilNumber: response.result.certifications?.[1]?.enrolmentNumber || '',
