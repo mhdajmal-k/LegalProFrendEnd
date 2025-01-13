@@ -120,7 +120,7 @@ const LawyerSlot: React.FC<LawyerSlotProps> = ({ lawyerId, lawyer }) => {
 
                 const response = await dispatch(createAppointment(formData)).unwrap();
 
-                if (response.status) {
+                if (response?.status) {
                     const AppointmentId = response.result._id as string
                     // toast(<CustomToast message={response.message} type="success" />);
                     navigate(`/payment/${AppointmentId}`)
