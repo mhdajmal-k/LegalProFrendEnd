@@ -15,7 +15,22 @@ interface OptionType {
     value: string;
     label: string;
 }
-
+interface FormValues {
+    userName: string;
+    email: string;
+    gender: string;
+    city: string;
+    state: string;
+    practiceArea: string[]; // Array of strings for multiple values
+    yearsOfExperience: string;
+    barCouncilNumber: string;
+    stateBarCouncilNumber: string;
+    designation: string;
+    courtPracticeArea: string;
+    languages: string[]; // Array of strings for multiple values
+    aboutMe: string;
+    profilePicture: File | null;
+}
 const LawyerProfile: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
     const { lawyerInfo, } = useSelector((state: RootState) => state.lawyer);
@@ -34,7 +49,7 @@ const LawyerProfile: React.FC = () => {
                     gender: response.result.gender || '',
                     city: response.result.city || '',
                     state: response.result.state || '',
-                    practiceArea: response.result.practice_area || [] || "",
+                    practiceArea: response.result.practice_area || [],
                     yearsOfExperience: response.result.years_of_experience || '',
                     barCouncilNumber: response.result.certifications?.[0]?.enrolmentNumber || '',
                     stateBarCouncilNumber: response.result.certifications?.[1]?.enrolmentNumber || '',
@@ -54,7 +69,7 @@ const LawyerProfile: React.FC = () => {
     useEffect(() => {
         fetchUserData();
     }, [dispatch]);
-    const formik = useFormik({
+    const formik = useFormik<FormValues>({
         initialValues: {
             userName: '',
             email: '',
