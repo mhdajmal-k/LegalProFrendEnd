@@ -59,65 +59,64 @@ const UsersList: React.FC = () => {
 
                                 if (response.status) {
 
-                                    if (response.message == "user blocked successFully") {
-                                        alert("hi")
+                                    if (response.message == "user blocked successFully")
                                         await dispatch(userLogout());
-                                    }
-
-                                    toast(<CustomToast message={response.message} type="success" />);
-
-                                    fetchUsers(currentPage);
                                 }
+
+                                toast(<CustomToast message={response.message} type="success" />);
+
+                                fetchUsers(currentPage);
+                            }
 
 
                             } catch (error: any) {
-                                console.error("Verification failed:", error);
-                                toast(<CustomToast message={error || error.message} type="error" />)
+                        console.error("Verification failed:", error);
+                    toast(<CustomToast message={error || error.message} type="error" />)
                             }
 
                         }}
                     >
-                        Confirm
-                    </button>
-                    <button
-                        className="bg-gray-300 text-gray-700 px-3 py-1 rounded-md"
-                        onClick={() => toast.dismiss()}
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>,
-            {
-                duration: 2000,
-            }
+                    Confirm
+                </button>
+                <button
+                    className="bg-gray-300 text-gray-700 px-3 py-1 rounded-md"
+                    onClick={() => toast.dismiss()}
+                >
+                    Cancel
+                </button>
+            </div>
+            </div >,
+{
+    duration: 2000,
+}
         );
     };
 
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+};
 
-    return (
-        <div className='w-auto mt-16 bg-white'>
-            <h1 className='text-center mb-5 font-semibold'>User List</h1>
-            <div className='text-end m-8 pr-6'>
-                <h5 className='text-end  inline-block bg-gray-300 p-1 rounded-lg'>TotalUsers:</h5>
-                <span className='text-xl font-semibold '> {TotalUsers}</span>
-            </div>
-
-            <CommonTable columns={userColumns} data={users} onAction={handleBlockOrUnblock} loading={loading} Who='user' />
-
-            {users.length > 0 && (
-                <div className='text-center mx-auto flex justify-center mt-7'>
-                    <CommonPagination
-                        totalPage={totalPages}
-                        initialPage={currentPage}
-                        onChange={handlePageChange}
-                    />
-                </div>
-            )}
+return (
+    <div className='w-auto mt-16 bg-white'>
+        <h1 className='text-center mb-5 font-semibold'>User List</h1>
+        <div className='text-end m-8 pr-6'>
+            <h5 className='text-end  inline-block bg-gray-300 p-1 rounded-lg'>TotalUsers:</h5>
+            <span className='text-xl font-semibold '> {TotalUsers}</span>
         </div>
-    );
+
+        <CommonTable columns={userColumns} data={users} onAction={handleBlockOrUnblock} loading={loading} Who='user' />
+
+        {users.length > 0 && (
+            <div className='text-center mx-auto flex justify-center mt-7'>
+                <CommonPagination
+                    totalPage={totalPages}
+                    initialPage={currentPage}
+                    onChange={handlePageChange}
+                />
+            </div>
+        )}
+    </div>
+);
 };
 
 export default UsersList;

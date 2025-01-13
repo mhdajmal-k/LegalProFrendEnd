@@ -33,7 +33,7 @@ const Blogs: React.FC = () => {
                 return [...prev, ...newBlogs];
             });
 
-            alert(response.hasMore)
+
             setHasMore(response.hasMore);
         } catch (error) {
             console.error("Failed to fetch blogs:", error);
