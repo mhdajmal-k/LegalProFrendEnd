@@ -13,7 +13,7 @@ interface FormValues {
     userName: string;
     email: string;
     phoneNumber: string;
-    profile_picture?: string;
+    profilePic?: File | null;
 }
 
 const ProfileData: React.FC = () => {
@@ -21,7 +21,6 @@ const ProfileData: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
     const [previewImage, setPreviewImage] = useState<string>("");
     const [userData, setUserData] = useState<any>(null);
-    const [image, setImage] = useState<File | null>(null);
     const fileRef = useRef<HTMLInputElement | null>(null);
     const dispatch: AppDispatch = useDispatch();
 
@@ -29,12 +28,12 @@ const ProfileData: React.FC = () => {
         try {
             const response = await dispatch(getUserProfileData()).unwrap();
             setUserData(response.result);
-            // Reset form with new values
             formik.resetForm({
                 values: {
                     userName: response.result.userName || '',
                     email: response.result.email || '',
                     phoneNumber: response.result.phoneNumber || '',
+                    profilePic: null
                 }
             });
         } catch (error: any) {
@@ -50,42 +49,42 @@ const ProfileData: React.FC = () => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            setImage(file);
             const imageUrl = URL.createObjectURL(file);
             setPreviewImage(imageUrl);
+            // Set the file in Formik values
+            formik.setFieldValue('profilePic', file);
         } else {
-            setImage(null);
             setPreviewImage('');
+            formik.setFieldValue('profilePic', null);
         }
     };
 
-    const formik = useFormik({
+    const formik = useFormik<FormValues>({
         initialValues: {
             userName: userData?.userName || '',
             email: userData?.email || '',
             phoneNumber: userData?.phoneNumber || '',
+            profilePic: null
         },
         validationSchema: userDataUpdateValidator,
-        enableReinitialize: true, // Enable form reinitialization when initialValues change
         validateOnChange: true,
         validateOnBlur: true,
         onSubmit: async (values: FormValues) => {
             const formData = new FormData();
 
-
-            // Only append changed values
+            // Only append changed text values
             Object.entries(values).forEach(([key, value]) => {
-                if (value !== userData[key]) {
+                if (key !== 'profilePic' && value !== userData[key]) {
                     formData.append(key, value as string);
                 }
             });
 
-            if (image) {
-                formData.append("profilePic", image);
+            // Always append the image if it exists in form values
+            if (values.profilePic) {
+                formData.append("profilePic", values.profilePic);
             }
 
             try {
-
                 const response = await dispatch(updateUserProfileData({
                     profileData: formData,
                 })).unwrap();
@@ -93,7 +92,6 @@ const ProfileData: React.FC = () => {
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
                     setEditMode(false);
-                    // Refresh user data after successful update
                     fetchUserData();
                 }
             } catch (error: any) {
@@ -107,19 +105,20 @@ const ProfileData: React.FC = () => {
 
     const handleEditToggle = () => {
         if (editMode) {
-            // Reset form when canceling edit
             formik.resetForm({
                 values: {
                     userName: userData?.userName || '',
                     email: userData?.email || '',
                     phoneNumber: userData?.phoneNumber || '',
+                    profilePic: null
                 }
             });
             setPreviewImage('');
-            setImage(null);
         }
         setEditMode(!editMode);
     };
+
+    const isFormChanged = formik.dirty || !!formik.values.profilePic;
 
     return (
         <div>
@@ -200,7 +199,7 @@ const ProfileData: React.FC = () => {
                                 color="success"
                                 type="submit"
                                 className="flex-1"
-                                disabled={loading || !formik.dirty}
+                                disabled={loading || !isFormChanged}
                             >
                                 {loading ? 'Updating...' : 'Update'}
                             </Button>

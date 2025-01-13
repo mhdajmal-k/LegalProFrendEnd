@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../services/store/store';
 import { Button, Input, Textarea } from '@nextui-org/react';
 import { useFormik } from 'formik';
 import Select, { MultiValue } from "react-select";
 import { practiceAreas } from '../../utils/constants/PracticeAreas';
-import { updateProfessionalData } from '../../services/store/features/lawyerServices';
+import { getProfessionalData, updateProfessionalData } from '../../services/store/features/lawyerServices';
 import CustomToast from '../userComponents/CustomToast';
 import { toast } from 'sonner';
 
@@ -21,24 +21,54 @@ const LawyerProfile: React.FC = () => {
     const { lawyerInfo, } = useSelector((state: RootState) => state.lawyer);
     const [editMode, setEditMode] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null)
-
+    const [userData, setUserData] = useState<any>(null);
     const options: OptionType[] = practiceAreas.map(area => ({ value: area.value, label: area.label }));
+    const fetchUserData = async () => {
+        try {
+            const response = await dispatch(getProfessionalData()).unwrap();
+            setUserData(response.result);
+            formik.resetForm({
+                values: {
+                    userName: response.result.userName || '',
+                    email: response.result.email || '',
+                    gender: response.result.gender || '',
+                    city: response.result.city || '',
+                    state: response.result.state || '',
+                    practiceArea: response.result.practice_area || [],
+                    yearsOfExperience: response.result.years_of_experience || '',
+                    barCouncilNumber: response.result.certifications?.[0]?.enrolmentNumber || '',
+                    stateBarCouncilNumber: response.result.certifications?.[1]?.enrolmentNumber || '',
+                    designation: response.result.designation || '',
+                    courtPracticeArea: response.result.courtPracticeArea || '',
+                    languages: response.result.languages_spoken || [],
+                    aboutMe: response.result.about || '',
+                    profilePicture: null
+                }
+            });
+        } catch (error: any) {
+            toast(<CustomToast message={error || error.message} type="error" />);
+            console.error('Error fetching user data:', error);
+        }
+    };
 
+    useEffect(() => {
+        fetchUserData();
+    }, [dispatch]);
     const formik = useFormik({
         initialValues: {
-            userName: lawyerInfo?.userName || '',
-            email: lawyerInfo?.email || '',
-            gender: lawyerInfo?.gender || '',
-            city: lawyerInfo?.city || '',
-            state: lawyerInfo?.state || '',
-            practiceArea: lawyerInfo?.practice_area || [],
-            yearsOfExperience: lawyerInfo?.years_of_experience || '',
-            barCouncilNumber: lawyerInfo?.certifications[0].enrolmentNumber || '',
-            stateBarCouncilNumber: lawyerInfo?.certifications[1].enrolmentNumber || '',
-            designation: lawyerInfo?.designation || '',
-            courtPracticeArea: lawyerInfo?.courtPracticeArea || '',
-            languages: lawyerInfo?.languages_spoken || [],
-            aboutMe: lawyerInfo?.about || '',
+            userName: '',
+            email: '',
+            gender: '',
+            city: '',
+            state: '',
+            practiceArea: [],
+            yearsOfExperience: '',
+            barCouncilNumber: '',
+            stateBarCouncilNumber: '',
+            designation: '',
+            courtPracticeArea: '',
+            languages: [],
+            aboutMe: '',
             profilePicture: null as File | null
         },
         // validationSchema: lawyerProfileValidator,
@@ -69,7 +99,7 @@ const LawyerProfile: React.FC = () => {
 
                 if (response.status) {
                     toast(<CustomToast message={response.message} type="success" />);
-
+                    await fetchUserData();
                 }
             } catch (error: any) {
                 toast(<CustomToast message={error || error.message} type="error" />);
@@ -97,8 +127,9 @@ const LawyerProfile: React.FC = () => {
                 <div className='flex justify-center'>
                     <div className='w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300'>
                         <img
-                            src={formik.values.profilePicture ? URL.createObjectURL(formik.values.profilePicture) : lawyerInfo?.profile_picture || 'https://via.placeholder.com/150'}
-
+                            src={formik.values.profilePicture
+                                ? URL.createObjectURL(formik.values.profilePicture)
+                                : userData?.profile_picture || 'https://via.placeholder.com/150'}
                             alt='Lawyer Avatar'
                             className='object-cover'
                         />

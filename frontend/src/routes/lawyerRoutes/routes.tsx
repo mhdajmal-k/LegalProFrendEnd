@@ -17,6 +17,7 @@ import LawyerProtectRoute from '../LaywerProtectRoute';
 import LawyerPublicRoute from '../LawyerPublicRotute';
 import LoadingFallback from '../../components/LoadingFallback';
 import ViewBlog from '../../pages/lawyerpages/ViewBlog';
+import EditBlogPage from '../../pages/lawyerpages/EditBlogPage';
 
 
 
@@ -41,6 +42,7 @@ const LawyerRoutes: React.FC = () => {
                     <Route path='/slot' element={<SlotCreation />} />
                     <Route path='/appointments' element={<Appointments />} />
                     <Route path='/view/:AppointmentId' element={<LawyerViewAppointment />} />
+                    <Route path="/editBlog/:blogId" element={<EditBlogPage />} />
                 </Route>
 
                 <Route path='*' element={<div className='text-center'>404 Not Found</div>} />

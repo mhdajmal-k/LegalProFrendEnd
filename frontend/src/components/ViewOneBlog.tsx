@@ -8,7 +8,7 @@ interface BlogListingProps {
 
 const ViewOneBlog: React.FC<BlogListingProps> = ({ blogs }) => {
 
-  const paragraphs = blogs?.content.split(/\r?\n+/) || []; ``
+  const paragraphs = blogs?.content.split(/\r?\n+/) || [];
 
   return (
     <div>

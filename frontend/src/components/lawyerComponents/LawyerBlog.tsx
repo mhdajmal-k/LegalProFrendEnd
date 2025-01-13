@@ -12,7 +12,7 @@ import CommonPagination from '../Pagination'
 
 const LawyerBlogListing = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    let [currentPage, setCurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     // const { loading } = useSelector((state: RootState) => state.lawyer)
     const [loading, setLoading] = useState(false);
     // const [totalPages, setTotalPages] = useState<number>(1);
@@ -104,7 +104,7 @@ const LawyerBlogListing = () => {
                 <Button onPress={onOpen} color='primary'>Create Blog</Button>
             </div>
 
-            <BlogListing blogs={blogs} who='lawyer' />
+            <BlogListing blogs={blogs} who='lawyer' hasMore loading />
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}

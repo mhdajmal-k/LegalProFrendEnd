@@ -1,56 +1,68 @@
-import React, { useEffect, useState } from 'react'
-import LegalFooter from '../../layout/footer'
-// import LawyerBlogListing from '../../components/lawyerComponents/LawyerBlog'
-import { BlogListing } from '../../components/BlogListing'
-import { useDispatch } from 'react-redux'
-import { BlogType } from '../../utils/type/lawyerType'
-import { AppDispatch } from '../../services/store/store'
-import { fetchAllBlog } from '../../services/store/features/userServices'
-import Navbar from '../../layout/Navbar'
-
-import CommonPagination from '../../components/Pagination'
+import React, { useEffect, useState } from 'react';
+import LegalFooter from '../../layout/footer';
+import { BlogListing } from '../../components/BlogListing';
+import { useDispatch } from 'react-redux';
+import { BlogType } from '../../utils/type/lawyerType';
+import { AppDispatch } from '../../services/store/store';
+import { fetchAllBlog } from '../../services/store/features/userServices';
+import Navbar from '../../layout/Navbar';
 
 const Blogs: React.FC = () => {
-    let [currentPage, setCurrentPage] = useState<number>(1);
-    // const [totalPages, setTotalPages] = useState<number>(1);
-    const [lawyerPerPage] = useState<number>(6);
     const dispatch: AppDispatch = useDispatch();
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [blogs, setBlogs] = useState<BlogType[]>([]);
-    const handlePageChange = (page: number) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [lawyerPerPage] = useState<number>(6);
 
-        setCurrentPage(page);
+    const fetchBlogs = async () => {
+        if (loading || !hasMore) return;
+
+        setLoading(true);
+        try {
+            const response = await dispatch(fetchAllBlog({
+                currentPage,
+                limit: lawyerPerPage,
+            })).unwrap();
+
+            setBlogs(prev => {
+                // Filter out duplicates based on _id
+                const newBlogs = response.result.filter(
+                    (newBlog: BlogType) => !prev.some(existingBlog => existingBlog._id === newBlog._id)
+                );
+                return [...prev, ...newBlogs];
+            });
+
+            alert(response.hasMore)
+            setHasMore(response.hasMore);
+        } catch (error) {
+            console.error("Failed to fetch blogs:", error);
+        } finally {
+            setLoading(false);
+        }
     };
-    useEffect(() => {
-        const fetchBlogs = async () => {
-            try {
-                const response = await dispatch(fetchAllBlog({
-                    currentPage,
-                    limit: lawyerPerPage,
-                })).unwrap();
 
-                setBlogs(response.result);
-            } catch (error) {
-                console.error("Failed to fetch blogs:", error);
-            }
-        };
+    useEffect(() => {
         fetchBlogs();
-    }, [dispatch, currentPage, lawyerPerPage]);
+    }, [currentPage]);
+
+    const handleLoadMore = async () => {
+        setCurrentPage(prev => prev + 1);
+    };
+
     return (
         <div>
             <Navbar />
-            <BlogListing blogs={blogs} who='user' />
+            <BlogListing
+                blogs={blogs}
+                who='user'
+                loading={loading}
+                hasMore={hasMore}
+                onLoadMore={handleLoadMore}
+            />
             <LegalFooter />
-            {blogs.length > 0 && (
-                <div className='mt- flex justify-center'>
-                    <CommonPagination
-                        totalPage={0}
-                        initialPage={currentPage}
-                        onChange={handlePageChange}
-                    />
-                </div>
-            )}
         </div>
-    )
-}
+    );
+};
 
-export default Blogs
+export default Blogs;

@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  //name of the localStorage
+  //name of the
   key: "root",
   version: 1,
   //we can use session storage also

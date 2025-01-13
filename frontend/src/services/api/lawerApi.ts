@@ -6,6 +6,7 @@ export const LAWYERVERIFYPROFESSIONALDATA =
   "/api/lawyer/verify-professionalData";
 
 export const UPDATEPROFESSIONALDATA = "/api/lawyer/updateProfessionalData";
+export const GETPROFESSIONALDATA = "/api/lawyer/getProfessionalData";
 export const LAWYERFORGOTPASSWORD = "/api/lawyer/forgotpassword";
 export const LAWYERRESETFORGOTPASSWORD = "/api/lawyer/resetforgotpassword";
 export const LAWYERCREATESLOT = "/api/lawyer/slot/";
@@ -17,5 +18,7 @@ export const FETCHAPPOINTMENTLAWYER = "/api/lawyer/appointment/view";
 export const CANCELLAPPOINTMENTLAWYER = "/api/lawyer/appointment/cancel";
 export const LAWYERCREATEBLOG = "/api/lawyer/blog/";
 export const FETCHONEBLOG = "/api/lawyer/blog/view";
+export const EDITEBLOGS = "/api/lawyer/blog/";
+export const DELETEBLOGS = "/api/lawyer/blog/";
 
 export const LAWYERLOGOUT = "/api/admin/logout";
