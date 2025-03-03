@@ -50,7 +50,7 @@ export default function AddReview({ isOpen, onClose, appointmentId }: AddReviewP
     };
     return (
         <Modal
-            // backdrop="opaque"
+
             isOpen={isOpen}
             onOpenChange={onClose}
             classNames={{

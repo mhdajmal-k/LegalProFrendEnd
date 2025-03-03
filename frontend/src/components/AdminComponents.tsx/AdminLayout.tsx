@@ -1,6 +1,6 @@
 
 import React from 'react';
-import DefaultSidebar from './DefaultSidebar'; // Adjust the import path based on your folder structure
+import DefaultSidebar from './DefaultSidebar';
 import { Outlet } from 'react-router-dom';
 
 const AdminLayout: React.FC = () => {

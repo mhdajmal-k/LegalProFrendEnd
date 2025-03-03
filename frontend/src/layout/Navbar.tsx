@@ -62,11 +62,7 @@ const Navbar: React.FC = React.memo(() => {
                 }
               >
                 <Avatar
-                // isBordered
-                // radius="full"
-                // src={userInfo?.profilePicture ?? 'https://i.pravatar.cc/150?u=default'}
-                // alt={userInfo.userName}
-                // className="cursor-pointer object-contain "
+
                 />
               </Tooltip>
               <span className="text-sm font-medium">{userInfo.userName}</span>

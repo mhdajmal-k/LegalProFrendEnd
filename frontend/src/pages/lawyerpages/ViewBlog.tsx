@@ -25,8 +25,8 @@ const ViewBlog: React.FC = () => {
                         size="sm"
                         className="bg-red-600 text-white"
                         onClick={() => {
-                            toast.dismiss(); // Close the confirmation toast
-                            handleDelete();  // Proceed with deletion
+                            toast.dismiss();
+                            handleDelete();
                         }}
                     >
                         Yes, Delete
@@ -34,7 +34,7 @@ const ViewBlog: React.FC = () => {
                     <Button
                         size="sm"
                         className="bg-gray-300 text-black"
-                        onClick={() => toast.dismiss()} // Close the confirmation toast without action
+                        onClick={() => toast.dismiss()}
                     >
                         Cancel
                     </Button>

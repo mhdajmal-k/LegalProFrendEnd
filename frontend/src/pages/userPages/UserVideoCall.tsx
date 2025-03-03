@@ -41,7 +41,7 @@ const VideoCallPage: React.FC<VideoCallPageProps> = ({ appointmentId, who }) => 
     const userVideo = useRef<HTMLVideoElement>(null);
     const peerConnection = useRef<RTCPeerConnection | null>(null);
     const audioRef = useRef<HTMLAudioElement>(null);
-    // const  = useSocket();
+
     const { socket, currentSocketId } = useSocket();
 
 

@@ -29,7 +29,7 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
         setIsAccepted(e.target.checked)
     }
     const [appointment, setAppointment] = useState<Appointment | null>(null);
-    // const { loading } = useSelector((state: RootState) => state.user)
+
     const fetchAppointmentData = async (appointmentId: string | undefined) => {
 
         if (appointmentId) {
@@ -61,7 +61,7 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
                     name: 'Legal Service Payment',
                     description: 'Appointment Payment',
                     handler: async function (response: any) {
-                        // Send the payment verification to the server
+
                         const verifyData = {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
@@ -78,11 +78,7 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
                         }
 
                     },
-                    // prefill: {
-                    //     name: 'Customer Name',
-                    //     email: 'customer@example.com',
-                    //     contact: '9999999999'
-                    // },
+
                     theme: {
                         color: '#003F62'
                     }
@@ -90,13 +86,10 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
 
                 const rzp1 = new window.Razorpay(options);
                 rzp1.on('payment.failed', async function (response: any) {
-                    // Handle payment failure
-                    // toast(<CustomToast message={response.error.description} type="error" />);
 
                     response = await dispatch(filedPayment(appointmentId as string)).unwrap();
                     if (response.status) {
-                        // const AppointmentId = response.result._id as string;
-                        // navigate(`/paymentSuccess/${AppointmentId}`);
+
                         toast(<CustomToast message={response.error.description} type="error" />);
                     }
                 });

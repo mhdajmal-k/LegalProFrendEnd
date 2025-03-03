@@ -1,7 +1,5 @@
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
-// import CustomToast from '../userComponents/CustomToast'
-// import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input } from '@nextui-org/react'
 import { FaEyeSlash, FaRegEye } from 'react-icons/fa'

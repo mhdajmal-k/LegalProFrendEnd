@@ -1,6 +1,5 @@
 import { Button } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
-// import CustomToast from './CustomToast';
 import CommonPagination from '../Pagination';
 import { toast } from 'sonner';
 import { AppDispatch } from '../../services/store/store';
@@ -11,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomToast from '../userComponents/CustomToast';
 import { fetchAllAppointmentLawyerSide } from '../../services/store/features/lawyerServices';
 interface AppointmentListProps {
-    userType: 'lawyer' | 'user'; // Use props to define user type and render appropriate columns
+    userType: 'lawyer' | 'user';
 }
 const AppointmentListLawyerSide: React.FC<AppointmentListProps> = ({ userType }) => {
     const [currentPage, setCurrentPage] = useState<number>(1);

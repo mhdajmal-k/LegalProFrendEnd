@@ -13,9 +13,9 @@ import CommonPagination from '../Pagination'
 const LawyerBlogListing = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [currentPage, setCurrentPage] = useState<number>(1);
-    // const { loading } = useSelector((state: RootState) => state.lawyer)
+
     const [loading, setLoading] = useState(false);
-    // const [totalPages, setTotalPages] = useState<number>(1);
+
     const [lawyerPerPage] = useState<number>(6);
     const dispatch: AppDispatch = useDispatch();
     const [blogs, setBlogs] = useState<BlogType[]>([]);
@@ -174,10 +174,10 @@ const LawyerBlogListing = () => {
                                 <Button
                                     className={loading ? "disabled" : ""}
                                     color="success"
-                                    disabled={loading} // Disable button during loading
+                                    disabled={loading}
                                     onClick={() => {
                                         if (!loading) {
-                                            handileCreate(onClose); // Trigger blog creation
+                                            handileCreate(onClose);
                                         }
                                     }}
                                 >

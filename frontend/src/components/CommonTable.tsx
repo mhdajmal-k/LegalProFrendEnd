@@ -1,6 +1,4 @@
 import React from 'react';
-// import { AppDispatch, } from '../services/store/store';
-// import { useDispatch } from 'react-redux';
 import CustomSkelton from './skeltton';
 import { CgProfile } from "react-icons/cg";
 import { Button } from '@nextui-org/react';
@@ -27,7 +25,6 @@ interface CommonTableProps {
 const CommonTable: React.FC<CommonTableProps> = ({ columns, data, onAction, loading, }) => {
 
 
-    // const dispatch: AppDispatch = useDispatch();
 
 
     return (

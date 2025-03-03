@@ -23,7 +23,7 @@ const EditBlogPage: React.FC = () => {
     const navigate = useNavigate();
     const { blogId } = useParams();
 
-    // State for form fields
+
     const [articleName, setArticleName] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
