@@ -52,6 +52,7 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
     const handilePayment = async (appointmentId: string | undefined) => {
         try {
             const response = await dispatch(createPayment(appointmentId)).unwrap()
+            console.log("response", response)
             if (response.status) {
                 const options = {
                     key: response.result.key,
@@ -61,7 +62,6 @@ export const AppointmentDetails: React.FC<AppointmentReviewProps> = ({ appointme
                     name: 'Legal Service Payment',
                     description: 'Appointment Payment',
                     handler: async function (response: any) {
-
                         const verifyData = {
                             razorpay_order_id: response.razorpay_order_id,
                             razorpay_payment_id: response.razorpay_payment_id,
